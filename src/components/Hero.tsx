@@ -52,7 +52,7 @@ const Hero = () => {
               asChild
             >
               <a
-                href="https://github.com/"
+                href="https://github.com/sairakesh-143"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
