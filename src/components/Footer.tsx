@@ -6,7 +6,7 @@ const Footer = () => {
     {
       name: "GitHub",
       icon: Github,
-      url: "https://github.com/",
+      url: "https://github.com/sairakesh-143",
       ariaLabel: "Visit my GitHub profile"
     },
     {
