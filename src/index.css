@@ -8,48 +8,50 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Professional Portfolio Design System */
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    /* Elite Professional Portfolio Design System */
+    --background: 220 26% 6%;
+    --foreground: 0 0% 98%;
 
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 20% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 217 33% 17%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 20% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 188 86% 43%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 280 90% 68%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 25%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 15% 14%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217 33% 20%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 15% 16%;
+    --muted-foreground: 220 8% 55%;
 
-    --accent: 188 86% 43%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 280 90% 68%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217 33% 25%;
-    --input: 217 33% 25%;
-    --ring: 188 86% 43%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 280 90% 68%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    /* Custom tokens for portfolio */
-    --hero-gradient-start: 222 47% 11%;
-    --hero-gradient-end: 217 33% 17%;
+    /* Professional gradient system */
+    --gradient-primary: linear-gradient(135deg, hsl(280 90% 68% / 0.2), hsl(240 90% 68% / 0.2));
+    --gradient-accent: linear-gradient(135deg, hsl(280 90% 68%), hsl(240 90% 68%));
+    --gradient-mesh: radial-gradient(at 0% 0%, hsl(280 90% 40% / 0.15) 0px, transparent 50%),
+                      radial-gradient(at 100% 100%, hsl(240 90% 40% / 0.15) 0px, transparent 50%);
     
-    --skill-badge: 217 33% 25%;
-    --skill-badge-foreground: 188 86% 43%;
+    /* Glow effects */
+    --glow-primary: 0 0 60px hsl(280 90% 68% / 0.3);
+    --glow-subtle: 0 8px 32px hsl(280 90% 68% / 0.15);
     
-    --project-card: 217 33% 17%;
-    --project-card-hover: 217 33% 22%;
-    
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Enhanced transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 }
 
@@ -60,7 +62,10 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    background-image: var(--gradient-mesh);
+    background-attachment: fixed;
   }
 
   html {
@@ -70,30 +75,53 @@ All colors MUST be HSL.
 
 @layer utilities {
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(var(--hero-gradient-start)), hsl(var(--hero-gradient-end)));
+    background: var(--gradient-primary);
+    backdrop-filter: blur(100px);
+  }
+
+  .gradient-text {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .card-hover {
     transition: var(--transition-smooth);
+    border: 1px solid hsl(var(--border));
   }
 
   .card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px -8px hsl(var(--primary) / 0.3);
+    transform: translateY(-8px);
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: var(--glow-subtle);
   }
 
   .skill-badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
-    background: hsl(var(--skill-badge));
-    color: hsl(var(--skill-badge-foreground));
-    border: 1px solid hsl(var(--primary) / 0.2);
+    @apply inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold;
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--primary) / 0.3);
+    transition: var(--transition-smooth);
+  }
+
+  .skill-badge:hover {
+    background: hsl(var(--primary) / 0.1);
+    border-color: hsl(var(--primary));
+    box-shadow: var(--glow-subtle);
+    transform: translateY(-2px);
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-8;
-    background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--primary)));
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-12;
+    background: var(--gradient-accent);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: -0.02em;
+  }
+
+  .glow-effect {
+    box-shadow: var(--glow-primary);
   }
 }
