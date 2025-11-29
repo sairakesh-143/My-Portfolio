@@ -1,111 +1,104 @@
+import { Mail, MessageSquare, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Mail, Send } from "lucide-react";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
 const Contact = () => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Create mailto link
-    const mailtoLink = `mailto:your.email@example.com?subject=Portfolio Contact from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(formData.message)}%0D%0A%0D%0AFrom: ${encodeURIComponent(formData.email)}`;
-    
-    window.location.href = mailtoLink;
-    
-    toast({
-      title: "Opening email client...",
-      description: "Your message will be sent via your default email application.",
-    });
-
-    // Reset form
-    setFormData({ name: "", email: "", message: "" });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="contact" className="py-20 bg-background">
+    <section id="contact" className="py-24 md:py-32 relative">
       <div className="container mx-auto px-4">
-        <h2 className="section-title text-center">Get In Touch</h2>
-        
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Have a project in mind or want to collaborate? Feel free to reach out!
-        </p>
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto"
+        >
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6 }}
+            className="section-title text-center"
+          >
+            Get In Touch
+          </motion.h2>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg md:text-xl text-muted-foreground text-center max-w-2xl mx-auto mb-16 leading-relaxed"
+          >
+            Have a project in mind or want to collaborate? I'd love to hear from you.
+            Let's create something amazing together!
+          </motion.p>
 
-        <div className="max-w-2xl mx-auto">
-          <form onSubmit={handleSubmit} className="space-y-6 bg-card p-8 rounded-xl border border-border">
-            <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium">
-                Name
-              </label>
-              <Input
-                id="name"
-                name="name"
-                placeholder="Your name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="bg-secondary border-border"
-              />
-            </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <Card className="card-hover bg-card/50 backdrop-blur-sm border-border overflow-hidden">
+              <CardContent className="p-8 md:p-12">
+                <div className="space-y-8">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Mail className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold mb-2 text-foreground">Email Me</h3>
+                      <p className="text-muted-foreground mb-4 leading-relaxed">
+                        Prefer email? Drop me a message and I'll get back to you as soon as possible.
+                      </p>
+                      <Button
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground group px-6 py-3 rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+                        asChild
+                      >
+                        <a
+                          href="mailto:your.email@example.com"
+                          className="flex items-center gap-2"
+                        >
+                          <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                          Send Email
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
 
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
-                Email
-              </label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="your.email@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="bg-secondary border-border"
-              />
-            </div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
-            <div className="space-y-2">
-              <label htmlFor="message" className="text-sm font-medium">
-                Message
-              </label>
-              <Textarea
-                id="message"
-                name="message"
-                placeholder="Tell me about your project..."
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={6}
-                className="bg-secondary border-border resize-none"
-              />
-            </div>
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <MessageSquare className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold mb-2 text-foreground">Connect on Social</h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Find me on GitHub and LinkedIn to see my latest projects and professional journey.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
 
-            <Button
-              type="submit"
-              size="lg"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
-              <Mail className="mr-2 w-4 h-4" />
-              Send Message
-              <Send className="ml-2 w-4 h-4" />
-            </Button>
-          </form>
-        </div>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-12 text-center"
+          >
+            <p className="text-muted-foreground">
+              Based in <span className="text-primary font-semibold">India</span> • Available for freelance opportunities
+            </p>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
