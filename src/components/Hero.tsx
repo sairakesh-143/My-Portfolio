@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Code2, Github, Linkedin } from "lucide-react";
+import { ArrowRight, Code2 } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -44,40 +44,6 @@ const Hero = () => {
             </Button>
           </div>
 
-          <div className="flex items-center justify-center gap-4 pt-8">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-border hover:bg-primary hover:text-primary-foreground hover:border-primary"
-              asChild
-            >
-              <a
-                href="https://github.com/sairakesh-143"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <Github className="w-5 h-5" />
-                GitHub
-              </a>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-border hover:bg-primary hover:text-primary-foreground hover:border-primary"
-              asChild
-            >
-              <a
-                href="https://www.linkedin.com/in/rakesh-reddy-450787321/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <Linkedin className="w-5 h-5" />
-                LinkedIn
-              </a>
-            </Button>
-          </div>
         </div>
       </div>
     </section>
