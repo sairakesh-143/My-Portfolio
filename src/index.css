@@ -2,56 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    /* Elite Professional Portfolio Design System */
-    --background: 220 26% 6%;
-    --foreground: 0 0% 98%;
+    /* Premium Dark Developer Theme */
+    --background: 224 71% 4%; /* Deep near-black #070a12 */
+    --foreground: 210 40% 98%; /* Crisp off-white */
 
-    --card: 220 20% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 224 45% 7%; /* Dark slate card */
+    --card-foreground: 210 40% 98%;
 
-    --popover: 220 20% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 224 45% 7%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 280 90% 68%;
+    /* Violet & Indigo Accents */
+    --primary: 246 80% 65%; /* Indigo / Violet highlight */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 15% 14%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 222 35% 12%; /* Subtle secondary surface */
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 15% 16%;
-    --muted-foreground: 220 8% 55%;
+    --muted: 223 30% 14%;
+    --muted-foreground: 215 20% 65%; /* Readable muted gray */
 
-    --accent: 280 90% 68%;
+    --accent: 217 91% 60%; /* Vibrant Blue accent */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
-    --ring: 280 90% 68%;
+    --border: 223 25% 15%; /* Sleek subtle border */
+    --input: 223 25% 15%;
+    --ring: 246 80% 65%;
 
-    --radius: 1rem;
+    --radius: 0.875rem;
 
-    /* Professional gradient system */
-    --gradient-primary: linear-gradient(135deg, hsl(280 90% 68% / 0.2), hsl(240 90% 68% / 0.2));
-    --gradient-accent: linear-gradient(135deg, hsl(280 90% 68%), hsl(240 90% 68%));
-    --gradient-mesh: radial-gradient(at 0% 0%, hsl(280 90% 40% / 0.15) 0px, transparent 50%),
-                      radial-gradient(at 100% 100%, hsl(240 90% 40% / 0.15) 0px, transparent 50%);
+    /* Subtle gradients */
+    --gradient-hero: radial-gradient(circle at 50% 0%, hsl(246 80% 65% / 0.12) 0%, transparent 65%),
+                     radial-gradient(circle at 100% 100%, hsl(217 91% 60% / 0.08) 0%, transparent 50%);
+    --gradient-accent: linear-gradient(135deg, hsl(210 40% 98%) 0%, hsl(215 20% 85%) 50%, hsl(246 80% 75%) 100%);
+    --gradient-badge: linear-gradient(135deg, hsl(246 80% 65% / 0.15), hsl(217 91% 60% / 0.15));
+    --gradient-card-border: linear-gradient(135deg, hsl(246 80% 65% / 0.3), hsl(217 91% 60% / 0.1), transparent);
     
-    /* Glow effects */
-    --glow-primary: 0 0 60px hsl(280 90% 68% / 0.3);
-    --glow-subtle: 0 8px 32px hsl(280 90% 68% / 0.15);
+    /* Subtle glow */
+    --glow-subtle: 0 10px 30px -10px hsl(246 80% 65% / 0.25);
+    --glow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
     
-    /* Enhanced transitions */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
@@ -60,68 +56,90 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-feature-settings: 'cv11', 'ss01';
-    background-image: var(--gradient-mesh);
-    background-attachment: fixed;
-  }
-
   html {
     scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-image: var(--gradient-hero);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+
+  /* Keyboard focus states */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
   }
 }
 
 @layer utilities {
-  .gradient-hero {
-    background: var(--gradient-primary);
-    backdrop-filter: blur(100px);
-  }
-
   .gradient-text {
-    background: var(--gradient-accent);
+    background: linear-gradient(135deg, #ffffff 30%, #c4b5fd 70%, #818cf8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .card-hover {
-    transition: var(--transition-smooth);
-    border: 1px solid hsl(var(--border));
+  .gradient-text-subtle {
+    background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .card-hover:hover {
-    transform: translateY(-8px);
-    border-color: hsl(var(--primary) / 0.5);
-    box-shadow: var(--glow-subtle);
-  }
-
-  .skill-badge {
-    @apply inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold;
-    background: hsl(var(--secondary));
-    color: hsl(var(--foreground));
-    border: 1px solid hsl(var(--primary) / 0.3);
+  .card-premium {
+    background: linear-gradient(180deg, rgba(22, 29, 47, 0.7) 0%, rgba(13, 18, 30, 0.85) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
     transition: var(--transition-smooth);
   }
 
-  .skill-badge:hover {
-    background: hsl(var(--primary) / 0.1);
-    border-color: hsl(var(--primary));
-    box-shadow: var(--glow-subtle);
-    transform: translateY(-2px);
+  .card-premium:hover {
+    border-color: rgba(139, 92, 246, 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -12px rgba(99, 102, 241, 0.18), 0 0 0 1px rgba(139, 92, 246, 0.2);
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-12;
-    background: var(--gradient-accent);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.02em;
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4 text-white;
   }
 
-  .glow-effect {
-    box-shadow: var(--glow-primary);
+  .section-subtitle {
+    @apply text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-16 leading-relaxed;
+  }
+
+  .badge-premium {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium;
+    background: rgba(99, 102, 241, 0.1);
+    color: #c7d2fe;
+    border: 1px solid rgba(99, 102, 241, 0.25);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

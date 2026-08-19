@@ -1,129 +1,105 @@
-import { Code, Palette, Smartphone, Zap } from "lucide-react";
+import { GraduationCap, Layers, Brain, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { portfolioData } from "@/data/portfolioData";
+import { Button } from "@/components/ui/button";
 
-const skills = [
-  "HTML5",
-  "CSS3",
-  "Responsive Web Design",
-  "Semantic HTML",
-  "CSS Flexbox",
-  "CSS Grid",
-  "HTML Forms",
-  "CSS Animations",
-  "Accessibility",
-  "Mobile-First Design",
-];
-
-const highlights = [
-  {
-    icon: Code,
-    title: "Clean Code",
-    description: "Writing semantic, accessible HTML with best practices in mind",
-  },
-  {
-    icon: Palette,
-    title: "Responsive Design",
-    description: "Crafting beautiful layouts that work seamlessly across all devices",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile-First",
-    description: "Building with mobile users as the priority for optimal performance",
-  },
-  {
-    icon: Zap,
-    title: "Performance",
-    description: "Optimizing for speed and efficiency in every line of code",
-  },
-];
+const iconMap = {
+  GraduationCap: GraduationCap,
+  Layers: Layers,
+  Brain: Brain,
+  Sparkles: Sparkles,
+};
 
 const About = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="about" className="py-24 md:py-32 relative overflow-hidden">
-      <div className="container mx-auto px-4">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-6xl mx-auto"
-        >
-          <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.6 }}
-            className="section-title text-center"
-          >
-            About Me
-          </motion.h2>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground text-center max-w-3xl mx-auto mb-16 leading-relaxed"
-          >
-            I'm a passionate Frontend Web Developer specializing in <span className="text-primary font-semibold">HTML</span> and <span className="text-primary font-semibold">CSS</span>.
-            I believe in creating clean, semantic, and accessible web experiences that delight users.
-          </motion.p>
+    <section id="about" className="py-24 md:py-32 relative">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300 mb-4">
+            <GraduationCap className="w-3.5 h-3.5" />
+            Background & Focus
+          </div>
+          <h2 className="section-title">About Me</h2>
+          <p className="section-subtitle">
+            I am a B.Tech student specializing in Artificial Intelligence & Data Science at KIET College, 
+            combining rigorous algorithmic training with modern full-stack web engineering.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {highlights.map((highlight, index) => {
-              const Icon = highlight.icon;
-              return (
-                <motion.div
-                  key={highlight.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                  transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="group p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                    <Icon className="w-6 h-6 text-primary" />
+        {/* 4 Pillars Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-16">
+          {portfolioData.aboutPillars.map((pillar, index) => {
+            const Icon = iconMap[pillar.icon as keyof typeof iconMap] || Layers;
+            return (
+              <motion.div
+                key={pillar.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="card-premium p-6 sm:p-8 rounded-2xl relative overflow-hidden group"
+              >
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all flex-shrink-0">
+                    <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
-                    {highlight.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {highlight.description}
-                  </p>
-                </motion.div>
-              );
-            })}
+                  <div>
+                    <span className="text-xs font-semibold text-indigo-400 tracking-wide uppercase">
+                      {pillar.subtitle}
+                    </span>
+                    <h3 className="text-xl font-bold text-white group-hover:text-indigo-200 transition-colors">
+                      {pillar.title}
+                    </h3>
+                  </div>
+                </div>
+
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6">
+                  {pillar.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2 pt-4 border-t border-white/[0.06]">
+                  {pillar.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2.5 py-1 text-xs font-medium rounded-md bg-white/[0.04] text-slate-300 border border-white/[0.06]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Narrative & Career Goal Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="p-8 sm:p-10 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-purple-950/20 to-slate-900/40 border border-indigo-500/20 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div className="space-y-2 text-left">
+            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+              Ready to create practical software impact
+            </h3>
+            <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
+              Seeking developer internships and full-stack engineering roles where I can contribute to production web systems, build intelligent tools, and continuously level up with modern engineering teams.
+            </p>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
+          <Button
+            className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-6 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 whitespace-nowrap gap-2 flex-shrink-0"
+            asChild
           >
-            <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center gradient-text">
-              Technical Skills
-            </h3>
-            <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-              {skills.map((skill, index) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: 0.8 + index * 0.05
-                  }}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  className="skill-badge cursor-default"
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
+            <a href="#contact">
+              Let's Connect
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </Button>
         </motion.div>
       </div>
     </section>

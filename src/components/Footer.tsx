@@ -1,83 +1,81 @@
-import { Github, Linkedin, Heart } from "lucide-react";
-import { motion } from "framer-motion";
-
-const socialLinks = [
-  {
-    name: "GitHub",
-    icon: Github,
-    url: "https://github.com/sairakesh-143",
-    ariaLabel: "Visit my GitHub profile"
-  },
-  {
-    name: "LinkedIn",
-    icon: Linkedin,
-    url: "https://www.linkedin.com/in/rakesh-reddy-450787321/",
-    ariaLabel: "Connect with me on LinkedIn"
-  },
-];
+import { Github, Linkedin, Mail, ArrowUp, Code2 } from "lucide-react";
+import { portfolioData } from "@/data/portfolioData";
 
 const Footer = () => {
-  return (
-    <footer className="py-12 border-t border-border/50 backdrop-blur-sm">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="flex items-center gap-2"
-            >
-              <span className="text-2xl font-bold">
-                <span className="gradient-text">BRS</span>
-              </span>
-            </motion.div>
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="flex items-center gap-6"
-            >
-              {socialLinks.map((social, index) => {
-                const Icon = social.icon;
-                return (
-                  <motion.a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.ariaLabel}
-                    whileHover={{ scale: 1.2, y: -3 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 rounded-xl bg-secondary/50 backdrop-blur-sm border border-border hover:border-primary/50 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                  >
-                    <Icon className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
-                  </motion.a>
-                );
-              })}
-            </motion.div>
+  return (
+    <footer className="py-12 border-t border-white/[0.08] bg-[#050811] text-slate-400 text-xs">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/[0.06]">
+          
+          {/* Brand & Role */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">
+                {portfolioData.personal.initials}
+              </div>
+              <span className="text-sm font-bold text-white tracking-tight">
+                {portfolioData.personal.fullName}
+              </span>
+            </div>
+            <p className="text-slate-400 text-xs mt-1">
+              AI & Full Stack Developer • B.Tech AI & Data Science
+            </p>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-8 pt-8 border-t border-border/50 text-center"
+          {/* Social Links */}
+          <div className="flex items-center gap-3">
+            <a
+              href={portfolioData.personal.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+              aria-label="GitHub profile"
+            >
+              <Github className="w-4 h-4" />
+            </a>
+            <a
+              href={portfolioData.personal.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+              aria-label="LinkedIn profile"
+            >
+              <Linkedin className="w-4 h-4" />
+            </a>
+            <a
+              href={`mailto:${portfolioData.personal.email}`}
+              className="w-8 h-8 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+              aria-label="Send email"
+            >
+              <Mail className="w-4 h-4" />
+            </a>
+          </div>
+
+          {/* Back to Top */}
+          <button
+            onClick={scrollToTop}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-slate-300 hover:text-white transition-colors"
+            aria-label="Scroll to top"
           >
-            <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
-              Built with <Heart className="w-4 h-4 text-primary animate-pulse" /> using HTML & CSS
-              <span className="mx-2">â€¢</span>
-              Â© {new Date().getFullYear()} Bhargava Sai Rakesh Reddy
-            </p>
-          </motion.div>
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {/* Bottom copyright */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+          <p>© {new Date().getFullYear()} {portfolioData.personal.fullName}. All rights reserved.</p>
+          <div className="flex items-center gap-2">
+            <Code2 className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Built with React, TypeScript & Vite</span>
+          </div>
         </div>
       </div>
     </footer>
