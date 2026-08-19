@@ -35,11 +35,12 @@ export const portfolioData = {
     name: "Rakesh",
     fullName: "Bhargava Sai Rakesh Reddy",
     initials: "BRS",
-    title: "AI & Full Stack Developer",
-    statusBadge: "Open to Internship / Full Stack Opportunities",
+    title: "AI & Data Science Student → Full-Stack Developer",
+    statusBadge: "Open to Internship",
     shortBio:
-      "I build modern full-stack applications and AI-powered solutions that solve practical problems and create useful user experiences.",
+      "I build practical AI-powered web applications and full-stack solutions that solve real-world problems.",
     location: "Kakinada, Andhra Pradesh, India",
+    profilePhoto: "/profile.jpg",
     education: {
       degree: "B.Tech in Artificial Intelligence & Data Science",
       institution: "KIET College, Kakinada (Korangi)",
