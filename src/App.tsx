@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import AdminLogin from "./pages/admin/AdminLogin";
 import { AIDrawerProvider } from "@/contexts/AIDrawerContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -29,6 +30,8 @@ const App = () => (
           <Routes>
             {/* Public Portfolio Route (100% clean & AI-free) */}
             <Route path="/" element={<Index />} />
+
+
 
             {/* Private Admin Routes — all wrapped in AdminLayout with sidebar */}
             <Route

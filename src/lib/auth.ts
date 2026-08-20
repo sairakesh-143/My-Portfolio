@@ -92,4 +92,13 @@ export const authService = {
       return false;
     }
   },
+
+  // New helper to retrieve admin user info from settings
+  getAdminUser() {
+    const settings = this.getSettings();
+    return {
+      name: settings.adminName,
+      email: settings.adminEmail,
+    };
+  },
 };
