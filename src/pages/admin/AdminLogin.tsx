@@ -1,132 +1,147 @@
 import { useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Shield, Lock, Mail, ArrowRight, Sparkles, KeyRound, Eye, EyeOff, HelpCircle, CheckCircle2 } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Lock, Unlock, Eye, EyeOff, ShieldCheck, ArrowRight, Sparkles, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { authService } from "@/lib/auth";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState("rakeshreddy@king.com");
-  const [password, setPassword] = useState("1234@rakesh");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [unlocked, setUnlocked] = useState(false);
   const [error, setError] = useState("");
-  const [forgotModalOpen, setForgotModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = location.state?.from?.pathname || "/admin";
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!password.trim()) {
+      setError("Please enter the admin password.");
+      return;
+    }
+
     setError("");
     setLoading(true);
 
-    setTimeout(() => {
-      const res = authService.login(email, password);
+    try {
+      const res = await authService.verifyAndUnlock(password);
       setLoading(false);
 
       if (res.success) {
-        toast.success("Welcome back, Rakesh! Signed in successfully.");
-        navigate(from === "/admin/login" ? "/admin" : from, { replace: true });
-        // Trigger a re-render if loaded inline
-        window.dispatchEvent(new Event("storage"));
+        setUnlocked(true);
+        toast.success("Access granted. Opening Admin AI Workspace...");
+        setTimeout(() => {
+          navigate(from === "/admin/login" ? "/admin" : from, { replace: true });
+          window.dispatchEvent(new Event("storage"));
+        }, 500);
       } else {
-        setError(res.message || "Invalid email or password.");
-        toast.error(res.message || "Authentication failed.");
+        setError(res.message || "Incorrect password.");
+        toast.error("Incorrect password. Access denied.");
       }
-    }, 350);
+    } catch (err) {
+      setLoading(false);
+      setError("Error verifying password. Please try again.");
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#070910] text-[#F5F7FF] flex items-center justify-center p-4 relative overflow-hidden">
       
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[160px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
+      {/* Background ambient glowing auras */}
+      <div className="absolute top-1/3 left-1/3 w-[520px] h-[520px] bg-indigo-600/10 rounded-full blur-[170px] pointer-events-none -z-10 animate-pulse" />
+      <div className="absolute bottom-1/3 right-1/3 w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
 
-      <div className="w-full max-w-md">
-        
-        {/* Card Container */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#0b0f1d]/90 border border-white/[0.1] shadow-2xl shadow-black/80 backdrop-blur-xl relative">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, y: 16 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-md"
+      >
+        {/* Glassmorphic Lock Card */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-[#0b0f1e]/90 border border-white/[0.1] shadow-2xl shadow-black/90 backdrop-blur-2xl relative overflow-hidden">
           
-          {/* Header Brand */}
-          <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-xl mx-auto mb-4 shadow-lg shadow-indigo-500/30">
-              <Shield className="w-7 h-7" />
-            </div>
-            
+          {/* Subtle top accent gradient */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-amber-400 to-purple-500" />
+
+          {/* Animated Lock Icon */}
+          <div className="text-center mb-7">
+            <motion.div
+              animate={
+                unlocked
+                  ? { scale: [1, 1.2, 1], rotate: [0, -10, 0] }
+                  : { y: [0, -4, 0] }
+              }
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border transition-all duration-500 ${
+                unlocked
+                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-xl shadow-emerald-500/20"
+                  : error
+                  ? "bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-xl shadow-rose-500/20"
+                  : "bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-amber-500/20 border-white/[0.15] text-amber-400 shadow-xl shadow-black/50"
+              }`}
+            >
+              {unlocked ? (
+                <Unlock className="w-8 h-8" />
+              ) : (
+                <Lock className="w-8 h-8" />
+              )}
+            </motion.div>
+
             <h1 className="text-2xl font-bold text-white tracking-tight">
-              Admin Portal
+              Admin Workspace
             </h1>
             <p className="text-xs text-slate-400 mt-1">
-              Sign in to manage projects, AI assistant & messages
+              Enter password to unlock private AI portfolio manager
             </p>
           </div>
 
           {/* Error Banner */}
-          {error && (
-            <div className="p-3.5 mb-6 rounded-2xl bg-rose-500/10 border border-rose-500/25 text-xs text-rose-300">
-              {error}
-            </div>
-          )}
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="p-3 mb-5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 flex items-center gap-2"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
+                <span>{error}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {/* Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
-            
+          {/* Lock Screen Form */}
+          <form onSubmit={handleUnlock} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-slate-300">
-                Admin Email
-              </label>
-              <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="rakeshreddy@king.com"
-                  className="pl-10 bg-white/[0.04] border-white/[0.1] text-white placeholder:text-slate-500 focus-visible:ring-amber-400 rounded-xl text-xs"
-                />
+              <div className="flex items-center justify-between text-xs font-medium text-slate-300">
+                <span>Admin Password</span>
+                <span className="text-[10px] text-slate-500 font-mono">Protected</span>
               </div>
-            </div>
 
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-medium text-slate-300">
-                  Password
-                </label>
-                <button
-                  type="button"
-                  onClick={() => setForgotModalOpen(true)}
-                  className="text-[11px] text-amber-400 hover:text-amber-300 hover:underline"
-                >
-                  Forgot password?
-                </button>
-              </div>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <Input
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (error) setError("");
+                  }}
+                  autoFocus
                   required
-                  placeholder="••••••••"
-                  className="pl-10 pr-10 bg-white/[0.04] border-white/[0.1] text-white placeholder:text-slate-500 focus-visible:ring-amber-400 rounded-xl text-xs"
+                  placeholder="Enter admin password..."
+                  className="pl-10 pr-10 bg-white/[0.04] border-white/[0.12] focus-visible:border-amber-400 text-white placeholder:text-slate-500 focus-visible:ring-amber-400 rounded-xl text-xs py-2.5"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -135,86 +150,35 @@ const AdminLogin = () => {
 
             <Button
               type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-black font-bold py-3 rounded-xl shadow-lg shadow-amber-500/25 transition-all gap-2 mt-2 text-xs"
+              disabled={loading || unlocked}
+              className="w-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-bold py-3 rounded-xl shadow-xl shadow-amber-500/20 transition-all gap-2 text-xs mt-2"
             >
               {loading ? (
-                <span>Verifying credentials...</span>
+                <span>Verifying security key...</span>
+              ) : unlocked ? (
+                <>
+                  <ShieldCheck className="w-4 h-4 text-black" />
+                  <span>Unlocked! Opening Workspace...</span>
+                </>
               ) : (
                 <>
-                  <span>Sign In to Admin</span>
+                  <span>Unlock Workspace</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </Button>
           </form>
 
-          {/* Quick Credential Hint for Rakesh */}
+          {/* Bottom Security Footer */}
           <div className="mt-6 pt-5 border-t border-white/[0.06] text-center">
-            <p className="text-[11px] text-slate-500">
-              Admin Access Account: <br />
-              <span className="font-mono text-slate-400">rakeshreddy@king.com</span>
-            </p>
-
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 font-medium mt-4 transition-colors"
-            >
-              &larr; Back to Public Portfolio
-            </Link>
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-mono text-slate-500">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span>SHA-256 Authenticated · Private Workspace</span>
+            </div>
           </div>
 
         </div>
-
-      </div>
-
-      {/* Forgot Password Help Dialog */}
-      <Dialog open={forgotModalOpen} onOpenChange={setForgotModalOpen}>
-        <DialogContent className="max-w-md bg-[#0b0f1d] border border-white/[0.12] text-white p-6 rounded-3xl shadow-2xl">
-          <DialogHeader className="text-left space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-              <KeyRound className="w-5 h-5" />
-            </div>
-            <DialogTitle className="text-xl font-bold text-white">
-              Admin Credentials Recovery
-            </DialogTitle>
-            <DialogDescription className="text-xs text-slate-300 leading-relaxed">
-              Your default admin account is set to:
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] space-y-2 text-xs font-mono text-slate-300">
-            <div>
-              <span className="text-slate-500">Email: </span>
-              <span className="text-amber-300 font-bold">rakeshreddy@king.com</span>
-            </div>
-            <div>
-              <span className="text-slate-500">Default Password: </span>
-              <span className="text-amber-300 font-bold">1234@rakesh</span>
-            </div>
-          </div>
-
-          <p className="text-xs text-slate-400 leading-relaxed">
-            You can change your password anytime under <strong>Settings</strong> once signed in.
-          </p>
-
-          <div className="flex justify-end pt-2">
-            <Button
-              type="button"
-              onClick={() => {
-                setEmail("rakeshreddy@king.com");
-                setPassword("1234@rakesh");
-                setForgotModalOpen(false);
-                toast.success("Applied default credentials to form.");
-              }}
-              className="bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl"
-            >
-              Fill Credentials & Sign In
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
+      </motion.div>
     </div>
   );
 };

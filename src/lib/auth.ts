@@ -1,7 +1,10 @@
 import { AdminSettingsConfig } from "./types";
 
-const AUTH_KEY = "rakesh_portfolio_auth_v1";
+const AUTH_KEY = "rakesh_portfolio_admin_session_v2";
 const SETTINGS_KEY = "rakesh_portfolio_settings_v1";
+
+// Default SHA-256 hash for secure verification (never stores plaintext)
+const DEFAULT_HASH = "32e24b2a3162b15354e4324fa4aceb4782e3c8d788e90782d60b89a9b392795b";
 
 const DEFAULT_SETTINGS: AdminSettingsConfig = {
   adminEmail: "rakeshreddy@king.com",
@@ -10,9 +13,13 @@ const DEFAULT_SETTINGS: AdminSettingsConfig = {
   useSupabase: false,
 };
 
-// Default password hash/value
-const DEFAULT_PASSWORD = "1234@rakesh";
-const PASSWORD_KEY = "rakesh_portfolio_admin_pwd_v1";
+// Helper to compute SHA-256 hash in browser
+export async function sha256(message: string): Promise<string> {
+  const msgBuffer = new TextEncoder().encode(message.trim());
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
 
 export const authService = {
   getSettings(): AdminSettingsConfig {
@@ -32,35 +39,42 @@ export const authService = {
     return updated;
   },
 
-  login(email: string, password: string): { success: boolean; message?: string } {
-    const settings = this.getSettings();
-    const storedPassword = localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
-
-    const cleanInputEmail = email.trim().toLowerCase();
-    const cleanAdminEmail = settings.adminEmail.trim().toLowerCase();
-
-    if (cleanInputEmail !== cleanAdminEmail) {
-      return { success: false, message: "Invalid email address." };
+  async verifyAndUnlock(password: string): Promise<{ success: boolean; message?: string }> {
+    if (!password || password.trim().length === 0) {
+      return { success: false, message: "Please enter the admin password." };
     }
 
-    if (password !== storedPassword) {
-      return { success: false, message: "Invalid password." };
+    try {
+      const inputHash = await sha256(password);
+      const configuredHash =
+        import.meta.env.VITE_ADMIN_PASSWORD_HASH ||
+        (import.meta.env.VITE_ADMIN_PASSWORD ? await sha256(import.meta.env.VITE_ADMIN_PASSWORD) : null) ||
+        DEFAULT_HASH;
+
+      if (inputHash === configuredHash) {
+        // Create secure persistent session with 7-day validity
+        const session = {
+          role: "admin",
+          unlockedAt: Date.now(),
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
+          token: `admin-sess-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        };
+        localStorage.setItem(AUTH_KEY, JSON.stringify(session));
+        return { success: true };
+      }
+
+      return { success: false, message: "Incorrect password. Access denied." };
+    } catch (err) {
+      return { success: false, message: "Verification error. Please try again." };
     }
+  },
 
-    // Set authenticated session with timestamp
-    const session = {
-      email: cleanInputEmail,
-      name: settings.adminName,
-      token: `adm-token-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-      expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 days
-    };
-
-    localStorage.setItem(AUTH_KEY, JSON.stringify(session));
-    return { success: true };
+  lock() {
+    localStorage.removeItem(AUTH_KEY);
   },
 
   logout() {
-    localStorage.removeItem(AUTH_KEY);
+    this.lock();
   },
 
   isAuthenticated(): boolean {
@@ -70,34 +84,12 @@ export const authService = {
       const session = JSON.parse(raw);
       if (!session.token || !session.expiresAt) return false;
       if (Date.now() > session.expiresAt) {
-        this.logout();
+        this.lock();
         return false;
       }
       return true;
     } catch {
       return false;
     }
-  },
-
-  getAdminUser() {
-    try {
-      const raw = localStorage.getItem(AUTH_KEY);
-      if (!raw) return null;
-      return JSON.parse(raw);
-    } catch {
-      return null;
-    }
-  },
-
-  changePassword(oldPass: string, newPass: string): { success: boolean; message?: string } {
-    const storedPassword = localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
-    if (oldPass !== storedPassword) {
-      return { success: false, message: "Current password is incorrect." };
-    }
-    if (!newPass || newPass.length < 6) {
-      return { success: false, message: "New password must be at least 6 characters long." };
-    }
-    localStorage.setItem(PASSWORD_KEY, newPass);
-    return { success: true, message: "Password updated successfully." };
   },
 };
