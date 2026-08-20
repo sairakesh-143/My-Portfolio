@@ -1,0 +1,50 @@
+/* Design Tokens for Premium Admin UI */
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #060811; /* deep black/navy */
+  --color-bg-surface: #091124; /* slightly lighter navy */
+  
+  /* Primary */
+  --color-primary: #8b5cf6; /* premium purple */
+  --color-primary-hover: #a78bfa;
+
+  /* Accent */
+  --color-accent: #fbbf24; /* warm gold */
+
+  /* Success / Published */
+  --color-success: #10b981; /* emerald */
+
+  /* Draft / Warning */
+  --color-warning: #f59e0b; /* amber */
+
+  /* Destructive */
+  --color-danger: #ef4444; /* soft red */
+
+  /* Text */
+  --color-text-primary: #f1f5f9; /* high contrast light */
+  --color-text-secondary: #94a3b8; /* muted blue‑gray */
+
+  /* Border & Shadow */
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+  --border-color: rgba(255,255,255,0.08);
+  --shadow-elevation-low: 0 2px 4px rgba(0,0,0,0.12);
+  --shadow-elevation-medium: 0 4px 8px rgba(0,0,0,0.16);
+  --shadow-elevation-high: 0 8px 16px rgba(0,0,0,0.20);
+
+  /* Typography */
+  --font-family: 'Inter', sans-serif;
+  --font-size-base: 0.9375rem; /* 15px */
+  --line-height-base: 1.6;
+}
+
+/* Utility classes */
+.bg-primary { background-color: var(--color-bg-primary); }
+.bg-surface { background-color: var(--color-bg-surface); }
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.rounded { border-radius: var(--border-radius); }
+.rounded-sm { border-radius: var(--border-radius-sm); }
+.shadow-low { box-shadow: var(--shadow-elevation-low); }
+.shadow-medium { box-shadow: var(--shadow-elevation-medium); }
+.shadow-high { box-shadow: var(--shadow-elevation-high); }
