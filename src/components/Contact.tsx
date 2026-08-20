@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
+import { messageStore } from "@/lib/messageStore";
 import { toast } from "sonner";
 
 const Contact = () => {
@@ -21,14 +22,21 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate sending message
     setTimeout(() => {
+      // Save message into persistent messageStore
+      messageStore.addMessage({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject || "Portfolio Contact Message",
+        message: formData.message,
+      });
+
       setIsSubmitting(false);
       toast.success("Thank you! Your message has been sent successfully. I will get back to you soon.", {
         duration: 4000,
       });
       setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 1000);
+    }, 500);
   };
 
   const copyEmail = () => {
