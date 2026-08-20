@@ -16,9 +16,11 @@ const Footer = () => {
           {/* Brand & Tagline */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white text-xs">
-                {portfolioData.personal.initials}
-              </div>
+              <img
+                src="/logo.png"
+                alt="BR Logo"
+                className="w-8 h-8 rounded-lg object-cover"
+              />
               <span className="font-bold text-white text-sm">
                 {portfolioData.personal.fullName}
               </span>

@@ -70,9 +70,11 @@ const Navigation = () => {
               className="flex items-center gap-2.5 group focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
               aria-label="Rakesh Portfolio Home"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform">
-                {portfolioData.personal.initials}
-              </div>
+              <img
+                src="/logo.png"
+                alt="BR Logo"
+                className="w-10 h-10 rounded-xl object-cover shadow-md shadow-indigo-500/25 group-hover:scale-110 transition-transform"
+              />
               <div className="flex flex-col">
                 <span className="font-bold text-white text-sm sm:text-base tracking-tight group-hover:text-indigo-300 transition-colors leading-tight">
                   {portfolioData.personal.name}
