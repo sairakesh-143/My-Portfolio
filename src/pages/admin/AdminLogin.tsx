@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Shield, Lock, Mail, ArrowRight, Sparkles, KeyRound, Eye, EyeOff } from "lucide-react";
+import { Shield, Lock, Mail, ArrowRight, Sparkles, KeyRound, Eye, EyeOff, HelpCircle, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { authService } from "@/lib/auth";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 const AdminLogin = () => {
@@ -12,6 +19,7 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [forgotModalOpen, setForgotModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,12 +37,14 @@ const AdminLogin = () => {
 
       if (res.success) {
         toast.success("Welcome back, Rakesh! Signed in successfully.");
-        navigate(from, { replace: true });
+        navigate(from === "/admin/login" ? "/admin" : from, { replace: true });
+        // Trigger a re-render if loaded inline
+        window.dispatchEvent(new Event("storage"));
       } else {
         setError(res.message || "Invalid email or password.");
         toast.error(res.message || "Authentication failed.");
       }
-    }, 400);
+    }, 350);
   };
 
   return (
@@ -85,15 +95,24 @@ const AdminLogin = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="rakeshreddy@king.com"
-                  className="pl-10 bg-white/[0.04] border-white/[0.1] text-white placeholder:text-slate-500 focus-visible:ring-amber-400 rounded-xl"
+                  className="pl-10 bg-white/[0.04] border-white/[0.1] text-white placeholder:text-slate-500 focus-visible:ring-amber-400 rounded-xl text-xs"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-slate-300">
-                Password
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-medium text-slate-300">
+                  Password
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setForgotModalOpen(true)}
+                  className="text-[11px] text-amber-400 hover:text-amber-300 hover:underline"
+                >
+                  Forgot password?
+                </button>
+              </div>
               <div className="relative">
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <Input
@@ -102,7 +121,7 @@ const AdminLogin = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="pl-10 pr-10 bg-white/[0.04] border-white/[0.1] text-white placeholder:text-slate-500 focus-visible:ring-amber-400 rounded-xl"
+                  className="pl-10 pr-10 bg-white/[0.04] border-white/[0.1] text-white placeholder:text-slate-500 focus-visible:ring-amber-400 rounded-xl text-xs"
                 />
                 <button
                   type="button"
@@ -117,7 +136,7 @@ const AdminLogin = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-black font-bold py-3 rounded-xl shadow-lg shadow-amber-500/25 transition-all gap-2 mt-2"
+              className="w-full bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-black font-bold py-3 rounded-xl shadow-lg shadow-amber-500/25 transition-all gap-2 mt-2 text-xs"
             >
               {loading ? (
                 <span>Verifying credentials...</span>
@@ -133,7 +152,7 @@ const AdminLogin = () => {
           {/* Quick Credential Hint for Rakesh */}
           <div className="mt-6 pt-5 border-t border-white/[0.06] text-center">
             <p className="text-[11px] text-slate-500">
-              Default credentials configured: <br />
+              Admin Access Account: <br />
               <span className="font-mono text-slate-400">rakeshreddy@king.com</span>
             </p>
 
@@ -148,6 +167,54 @@ const AdminLogin = () => {
         </div>
 
       </div>
+
+      {/* Forgot Password Help Dialog */}
+      <Dialog open={forgotModalOpen} onOpenChange={setForgotModalOpen}>
+        <DialogContent className="max-w-md bg-[#0b0f1d] border border-white/[0.12] text-white p-6 rounded-3xl shadow-2xl">
+          <DialogHeader className="text-left space-y-2">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+              <KeyRound className="w-5 h-5" />
+            </div>
+            <DialogTitle className="text-xl font-bold text-white">
+              Admin Credentials Recovery
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-300 leading-relaxed">
+              Your default admin account is set to:
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] space-y-2 text-xs font-mono text-slate-300">
+            <div>
+              <span className="text-slate-500">Email: </span>
+              <span className="text-amber-300 font-bold">rakeshreddy@king.com</span>
+            </div>
+            <div>
+              <span className="text-slate-500">Default Password: </span>
+              <span className="text-amber-300 font-bold">1234@rakesh</span>
+            </div>
+          </div>
+
+          <p className="text-xs text-slate-400 leading-relaxed">
+            You can change your password anytime under <strong>Settings</strong> once signed in.
+          </p>
+
+          <div className="flex justify-end pt-2">
+            <Button
+              type="button"
+              onClick={() => {
+                setEmail("rakeshreddy@king.com");
+                setPassword("1234@rakesh");
+                setForgotModalOpen(false);
+                toast.success("Applied default credentials to form.");
+              }}
+              className="bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl"
+            >
+              Fill Credentials & Sign In
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };

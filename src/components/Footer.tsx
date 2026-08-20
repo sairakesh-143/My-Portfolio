@@ -57,21 +57,14 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* Back to Top & Admin Access */}
+          {/* Back to Top */}
           <div className="flex items-center gap-3">
             <span className="text-xs text-slate-400">
-              © {currentYear} {portfolioData.personal.name}.
+              © {currentYear} {portfolioData.personal.name}. All rights reserved.
             </span>
-            <a
-              href="/admin"
-              className="text-[11px] font-mono text-slate-500 hover:text-amber-400 transition-colors px-2 py-1 rounded bg-white/[0.02] border border-white/[0.06]"
-              title="Admin Portal (Secure)"
-            >
-              🔒 Admin
-            </a>
             <button
               onClick={scrollToTop}
-              className="w-9 h-9 rounded-xl bg-white/[0.04] hover:bg-amber-500 hover:text-black border border-white/[0.08] flex items-center justify-center text-slate-300 transition-all cursor-pointer ml-1"
+              className="w-9 h-9 rounded-xl bg-white/[0.04] hover:bg-amber-500 hover:text-black border border-white/[0.08] flex items-center justify-center text-slate-300 transition-all cursor-pointer ml-2"
               aria-label="Scroll to top"
             >
               <ArrowUp className="w-4 h-4" />
