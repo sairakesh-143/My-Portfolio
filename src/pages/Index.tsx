@@ -1,24 +1,28 @@
-import Navigation from "@/components/Navigation";
+﻿import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Highlights from "@/components/Highlights";
-import About from "@/components/About";
 import WhatIBuild from "@/components/WhatIBuild";
 import Projects from "@/components/Projects";
+import Journey from "@/components/Journey";
 import Skills from "@/components/Skills";
+import GithubShowcase from "@/components/GithubShowcase";
+import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-[#070a12] text-foreground selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="min-h-screen bg-[#070910] text-[#F5F7FF] selection:bg-amber-500/30 selection:text-amber-200">
       <Navigation />
       <main id="main-content">
         <Hero />
         <Highlights />
-        <About />
         <WhatIBuild />
         <Projects />
+        <Journey />
         <Skills />
+        <GithubShowcase />
+        <About />
         <Contact />
       </main>
       <Footer />

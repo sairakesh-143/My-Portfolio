@@ -1,136 +1,216 @@
-import { useState } from "react";
-import { ExternalLink, Github, Layers, CheckCircle2, ArrowUpRight, Sparkles, X, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+ï»¿import { useState } from "react";
 import { motion } from "framer-motion";
+import { ExternalLink, Github, ChevronRight, CheckCircle2, Sparkles, TrendingUp, AlertCircle, Lightbulb } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { portfolioData, Project } from "@/data/portfolioData";
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="py-24 md:py-32 relative">
+    <section id="projects" className="py-20 md:py-28 relative">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[160px] pointer-events-none -z-10" />
+      <div className="absolute bottom-10 left-1/4 w-[400px] h-[400px] bg-indigo-600/8 rounded-full blur-[140px] pointer-events-none -z-10" />
+
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+        
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300 mb-4">
-            <Layers className="w-3.5 h-3.5" />
-            Engineered Systems
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono mb-3">
+              <Sparkles className="w-3.5 h-3.5" />
+              Featured Work
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
+              Real-World Products & AI Systems
+            </h2>
+            <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+              Every project is engineered to solve a concrete problem with production-level architecture, responsive UX, and real data workflows.
+            </p>
           </div>
-          <h2 className="section-title">Featured Projects</h2>
-          <p className="section-subtitle">
-            A selection of production-grade full-stack web applications and AI solutions designed to solve real operational and analytical challenges.
-          </p>
+
+          <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-slate-400">
+            <span>Showing</span>
+            <span className="text-amber-400 font-bold px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+              3 Production Projects
+            </span>
+          </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        {/* Huge Featured Projects List */}
+        <div className="space-y-12 lg:space-y-16">
           {portfolioData.projects.map((project, index) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="card-premium rounded-2xl overflow-hidden flex flex-col justify-between group"
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="group relative rounded-3xl bg-[#0a0e1c] border border-white/[0.09] hover:border-amber-500/35 transition-all duration-300 shadow-2xl shadow-black/60 overflow-hidden"
             >
-              <div>
-                {/* Visual Header Mockup */}
-                <div className="relative h-48 bg-gradient-to-br from-[#0e1628] via-[#111936] to-[#1e1338] p-5 flex flex-col justify-between border-b border-white/[0.08] overflow-hidden">
-                  {/* Subtle Grid Pattern */}
-                  <div className="absolute inset-0 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none" />
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch">
+                
+                {/* Visual Mockup Frame */}
+                <div className="lg:col-span-5 relative bg-gradient-to-br from-[#0e1428] via-[#090d1a] to-[#060812] p-6 sm:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/[0.07] overflow-hidden">
                   
-                  {/* Top Badges */}
-                  <div className="flex items-center justify-between relative z-10">
-                    <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-white/[0.08] text-indigo-300 border border-white/[0.08] backdrop-blur-md">
-                      {project.category}
-                    </span>
-                    <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      {project.status}
-                    </span>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 via-transparent to-amber-500/10 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-                  {/* Visual Center Preview */}
-                  <div className="relative z-10">
-                    <h4 className="text-xl font-bold text-white tracking-tight group-hover:text-indigo-200 transition-colors">
-                      {project.title}
-                    </h4>
-                    <p className="text-xs text-slate-400 font-mono line-clamp-1">
-                      {project.subtitle}
-                    </p>
-                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+                        <span className="text-[10px] font-mono text-slate-300 ml-2">
+                          {project.id}.app
+                        </span>
+                      </div>
+                      
+                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium text-amber-300 bg-amber-500/10 border border-amber-500/20">
+                        {project.status}
+                      </span>
+                    </div>
 
-                  {/* Ambient Glow */}
-                  <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl group-hover:bg-indigo-500/30 transition-all pointer-events-none" />
-                </div>
+                    <div className="relative rounded-2xl bg-white/[0.02] border border-white/[0.08] p-5 mb-4 group-hover:border-amber-500/30 transition-all">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-300 font-bold text-sm">
+                          {index + 1}
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-white leading-tight">
+                            {project.title}
+                          </h4>
+                          <span className="text-xs text-amber-400 font-medium">
+                            {project.category}
+                          </span>
+                        </div>
+                      </div>
 
-                {/* Card Content Body */}
-                <div className="p-6">
-                  <p className="text-sm text-slate-300 leading-relaxed mb-5">
-                    {project.description}
-                  </p>
-
-                  {/* Problem & Solution Mini Box */}
-                  <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] space-y-2 mb-5">
-                    <div className="text-xs text-slate-300">
-                      <span className="text-indigo-400 font-semibold">Solution: </span>
-                      {project.problemSolution.solution}
+                      {project.impactMetric && (
+                        <div className="flex items-center gap-2 p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-300 font-medium">
+                          <TrendingUp className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0" />
+                          <span>{project.impactMetric}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  {/* Tech Stack Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-6">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-0.5 text-xs font-mono font-medium rounded-md bg-white/[0.04] text-slate-300 border border-white/[0.06]"
-                      >
-                        {tag}
-                      </span>
+                  <div className="space-y-1.5 z-10">
+                    <p className="text-[11px] font-mono uppercase tracking-wider text-slate-300 mb-1">
+                      Key Highlights:
+                    </p>
+                    {project.highlights.slice(0, 2).map((h) => (
+                      <div key={h} className="flex items-center gap-2 text-xs text-slate-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                        <span className="line-clamp-1">{h}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
-              </div>
 
-              {/* Action Buttons Footer */}
-              <div className="p-6 pt-0 flex flex-col gap-2">
-                <div className="grid grid-cols-2 gap-2">
-                  {project.liveUrl && (
+                {/* Details Column */}
+                <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight group-hover:text-amber-300 transition-colors">
+                        {project.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-sm sm:text-base text-amber-400/90 font-medium mb-4">
+                      {project.subtitle}
+                    </p>
+
+                    <p className="text-sm text-slate-300 leading-relaxed mb-6">
+                      {project.description}
+                    </p>
+
+                    {/* Problem / Solution Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-6">
+                      <div className="p-3.5 rounded-xl bg-rose-500/[0.04] border border-rose-500/15">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-rose-400 mb-1.5">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          <span>The Problem</span>
+                        </div>
+                        <p className="text-xs text-slate-300 leading-relaxed">
+                          {project.problemSolution.problem}
+                        </p>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400 mb-1.5">
+                          <Lightbulb className="w-3.5 h-3.5" />
+                          <span>Engineered Solution</span>
+                        </div>
+                        <p className="text-xs text-slate-300 leading-relaxed">
+                          {project.problemSolution.solution}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mb-8">
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2.5 py-1 text-xs font-mono font-medium rounded-lg bg-white/[0.04] text-slate-300 border border-white/[0.08] group-hover:border-white/[0.15] transition-colors"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-5 border-t border-white/[0.07]">
+                    <div className="flex items-center gap-2.5 flex-wrap">
+                      {project.liveUrl && (
+                        <Button
+                          size="sm"
+                          className="bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs px-4 py-2 rounded-xl shadow-md shadow-amber-500/15 transition-all gap-1.5"
+                          asChild
+                        >
+                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            Live Demo
+                          </a>
+                        </Button>
+                      )}
+
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.12] hover:border-white/[0.2] text-slate-200 hover:text-white text-xs font-medium px-4 py-2 rounded-xl transition-all gap-1.5"
+                        asChild
+                      >
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                          <Github className="w-3.5 h-3.5" />
+                          GitHub Code
+                        </a>
+                      </Button>
+                    </div>
+
                     <Button
                       size="sm"
-                      className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded-lg transition-all gap-1.5"
-                      asChild
+                      variant="ghost"
+                      onClick={() => setSelectedProject(project)}
+                      className="text-xs text-slate-400 hover:text-amber-300 hover:bg-white/[0.04] rounded-xl transition-colors gap-1 px-3"
                     >
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        Live Demo
-                      </a>
+                      <span>Case Study & Architecture</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </Button>
-                  )}
-                  
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="bg-white/[0.03] hover:bg-white/[0.08] border-white/[0.1] text-slate-200 hover:text-white text-xs font-medium rounded-lg transition-all gap-1.5"
-                    asChild
-                  >
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="w-3.5 h-3.5" />
-                      Code
-                    </a>
-                  </Button>
+                  </div>
+
                 </div>
 
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => setSelectedProject(project)}
-                  className="w-full text-xs text-slate-400 hover:text-indigo-300 hover:bg-white/[0.04] rounded-lg transition-colors gap-1"
-                >
-                  <span>View Architecture & Case Study</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </Button>
               </div>
             </motion.div>
           ))}
@@ -138,48 +218,48 @@ const Projects = () => {
 
         {/* Project Case Study Dialog */}
         <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-          <DialogContent className="max-w-2xl bg-[#0b0f19] border border-white/[0.1] text-white p-6 sm:p-8 rounded-2xl shadow-2xl">
+          <DialogContent className="max-w-2xl bg-[#0b0f1d] border border-white/[0.12] text-white p-6 sm:p-8 rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto">
             {selectedProject && (
               <div className="space-y-6">
                 <DialogHeader className="text-left space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded-full">
+                    <span className="text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full">
                       {selectedProject.category}
                     </span>
-                    <span className="text-xs font-mono text-emerald-400">
-                      • {selectedProject.status}
+                    <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+                      {selectedProject.status}
                     </span>
                   </div>
                   <DialogTitle className="text-2xl font-bold text-white">
                     {selectedProject.title}
                   </DialogTitle>
-                  <DialogDescription className="text-sm text-slate-400">
+                  <DialogDescription className="text-sm text-slate-300">
                     {selectedProject.subtitle}
                   </DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-4 text-sm text-slate-300">
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-2">
-                    <h5 className="font-semibold text-white text-xs uppercase tracking-wider text-slate-400">
+                  <div className="p-4 rounded-2xl bg-rose-500/[0.05] border border-rose-500/20 space-y-1.5">
+                    <h5 className="font-semibold text-rose-300 text-xs uppercase tracking-wider">
                       Problem Context:
                     </h5>
-                    <p>{selectedProject.problemSolution.problem}</p>
+                    <p className="text-slate-200">{selectedProject.problemSolution.problem}</p>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-indigo-950/20 border border-indigo-500/20 space-y-2">
-                    <h5 className="font-semibold text-indigo-300 text-xs uppercase tracking-wider">
+                  <div className="p-4 rounded-2xl bg-emerald-500/[0.05] border border-emerald-500/20 space-y-1.5">
+                    <h5 className="font-semibold text-emerald-300 text-xs uppercase tracking-wider">
                       Engineered Solution:
                     </h5>
-                    <p>{selectedProject.problemSolution.solution}</p>
+                    <p className="text-slate-200">{selectedProject.problemSolution.solution}</p>
                   </div>
 
                   <div>
-                    <h5 className="font-semibold text-white text-xs uppercase tracking-wider text-slate-400 mb-2">
-                      Key Highlights & Capabilities:
+                    <h5 className="font-semibold text-slate-300 text-xs uppercase tracking-wider mb-2">
+                      Key Capabilities & Deliverables:
                     </h5>
-                    <ul className="space-y-1.5">
+                    <ul className="space-y-2">
                       {selectedProject.highlights.map((h) => (
-                        <li key={h} className="flex items-start gap-2 text-xs text-slate-300">
+                        <li key={h} className="flex items-start gap-2.5 text-xs text-slate-300">
                           <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                           <span>{h}</span>
                         </li>
@@ -188,12 +268,12 @@ const Projects = () => {
                   </div>
 
                   <div>
-                    <h5 className="font-semibold text-white text-xs uppercase tracking-wider text-slate-400 mb-2">
-                      Stack & Tools:
+                    <h5 className="font-semibold text-slate-300 text-xs uppercase tracking-wider mb-2">
+                      Technology Stack:
                     </h5>
                     <div className="flex flex-wrap gap-1.5">
                       {selectedProject.tags.map((t) => (
-                        <span key={t} className="px-2.5 py-1 text-xs font-mono rounded bg-white/[0.06] text-slate-200">
+                        <span key={t} className="px-2.5 py-1 text-xs font-mono rounded-lg bg-white/[0.06] text-slate-200 border border-white/[0.08]">
                           {t}
                         </span>
                       ))}
@@ -204,7 +284,7 @@ const Projects = () => {
                 <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/[0.08]">
                   <Button
                     variant="outline"
-                    className="bg-white/[0.03] border-white/[0.1] text-xs"
+                    className="bg-white/[0.04] border-white/[0.12] text-xs rounded-xl"
                     asChild
                   >
                     <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -214,12 +294,12 @@ const Projects = () => {
                   </Button>
                   {selectedProject.liveUrl && (
                     <Button
-                      className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium"
+                      className="bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs rounded-xl"
                       asChild
                     >
                       <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                        Open Live Application
+                        Open Live Demo
                       </a>
                     </Button>
                   )}
