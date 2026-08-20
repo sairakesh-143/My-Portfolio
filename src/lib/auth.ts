@@ -4,7 +4,7 @@ const AUTH_KEY = "rakesh_portfolio_admin_session_v2";
 const SETTINGS_KEY = "rakesh_portfolio_settings_v1";
 
 // Default SHA-256 hash for secure verification (never stores plaintext)
-const DEFAULT_HASH = "32e24b2a3162b15354e4324fa4aceb4782e3c8d788e90782d60b89a9b392795b";
+const DEFAULT_HASH = "f2a94ccda4a9db9a64cf9ed334843e5e604af2635e52408c464fcda64df69d2b";
 
 const DEFAULT_SETTINGS: AdminSettingsConfig = {
   adminEmail: "rakeshreddy@king.com",
