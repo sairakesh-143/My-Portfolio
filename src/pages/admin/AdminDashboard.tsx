@@ -55,16 +55,16 @@ const AdminDashboard = () => {
   const featuredProjects = projects.filter((p) => p.featured).length;
 
   const handlePublish = (id: string) => {
-    const updated = projectStore.togglePublishStatus(id);
-    if (updated && updated.status === "Published") {
+    const updated = projectStore.publishProject(id);
+    if (updated) {
       toast.success(`✅ "${updated.title}" is now live on your public portfolio!`);
     }
   };
 
   const handleUnpublish = () => {
     if (!unpublishTarget) return;
-    const updated = projectStore.togglePublishStatus(unpublishTarget.id);
-    if (updated && updated.status === "Draft") {
+    const updated = projectStore.unpublishProject(unpublishTarget.id);
+    if (updated) {
       toast.success(`"${updated.title}" moved to Drafts. Removed from public portfolio.`);
     }
     setUnpublishTarget(null);

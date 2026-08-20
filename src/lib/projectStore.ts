@@ -216,6 +216,47 @@ export const projectStore = {
     return undefined;
   },
 
+  publishProject(id: string): ProjectItem | undefined {
+    const projects = this.getProjects();
+    const index = projects.findIndex((p) => p.id === id);
+    if (index !== -1) {
+      projects[index].status = "Published";
+      projects[index].updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+      notify();
+      return projects[index];
+    }
+    return undefined;
+  },
+
+  unpublishProject(id: string): ProjectItem | undefined {
+    const projects = this.getProjects();
+    const index = projects.findIndex((p) => p.id === id);
+    if (index !== -1) {
+      projects[index].status = "Draft";
+      projects[index].updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+      notify();
+      return projects[index];
+    }
+    return undefined;
+  },
+
+  deduplicateProjects(): ProjectItem[] {
+    const projects = this.getProjects();
+    const seen = new Set<string>();
+    const deduped = projects.filter((p) => {
+      if (seen.has(p.id)) return false;
+      seen.add(p.id);
+      return true;
+    });
+    if (deduped.length !== projects.length) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(deduped));
+      notify();
+    }
+    return deduped;
+  },
+
   toggleFeaturedStatus(id: string): ProjectItem | undefined {
     const projects = this.getProjects();
     const index = projects.findIndex((p) => p.id === id);

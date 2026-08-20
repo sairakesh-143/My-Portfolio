@@ -143,6 +143,8 @@ export const AdminAIWorkspace = () => {
 
   // Subscribe to project store updates (single source of truth)
   useEffect(() => {
+    // Clean up any duplicate projects from prior bugs on first load
+    projectStore.deduplicateProjects();
     const reload = () => setProjects(projectStore.getProjects());
     reload();
     return projectStore.subscribe(reload);
@@ -213,20 +215,14 @@ export const AdminAIWorkspace = () => {
   );
 
   const doPublish = useCallback((id: string): ProjectItem | undefined => {
-    const all = projectStore.getProjects();
-    const p = all.find((x) => x.id === id);
-    if (!p) return undefined;
-    const updated = projectStore.saveProject({ ...p, status: "Published" });
-    activityLog.log("project_published", updated.title);
+    const updated = projectStore.publishProject(id);
+    if (updated) activityLog.log("project_published", updated.title);
     return updated;
   }, []);
 
   const doUnpublish = useCallback((id: string): ProjectItem | undefined => {
-    const all = projectStore.getProjects();
-    const p = all.find((x) => x.id === id);
-    if (!p) return undefined;
-    const updated = projectStore.saveProject({ ...p, status: "Draft" });
-    activityLog.log("project_unpublished", updated.title);
+    const updated = projectStore.unpublishProject(id);
+    if (updated) activityLog.log("project_unpublished", updated.title);
     return updated;
   }, []);
 
