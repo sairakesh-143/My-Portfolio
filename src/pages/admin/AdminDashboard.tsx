@@ -7,6 +7,7 @@ import {
   MessageSquare,
   Plus,
   Eye,
+  EyeOff,
   Star,
   ExternalLink,
   CheckCircle2,
@@ -16,16 +17,22 @@ import {
   Edit3,
   Globe,
   TrendingUp,
+  Send,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { projectStore } from "@/lib/projectStore";
 import { messageStore } from "@/lib/messageStore";
 import { ProjectItem } from "@/lib/types";
 import { toast } from "sonner";
+import ConfirmDialog from "@/components/admin/ConfirmDialog";
 
 const AdminDashboard = () => {
   const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
+
+  // Confirmation dialog state
+  const [unpublishTarget, setUnpublishTarget] = useState<{ id: string; title: string } | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
 
   const loadData = () => {
     setProjects(projectStore.getProjects());
@@ -47,15 +54,20 @@ const AdminDashboard = () => {
   const draftProjects = projects.filter((p) => p.status === "Draft").length;
   const featuredProjects = projects.filter((p) => p.featured).length;
 
-  const handleTogglePublish = (id: string) => {
+  const handlePublish = (id: string) => {
     const updated = projectStore.togglePublishStatus(id);
-    if (updated) {
-      toast.success(
-        `Project status changed to ${updated.status}. ${
-          updated.status === "Published" ? "Now visible on live portfolio!" : "Hidden from public view."
-        }`
-      );
+    if (updated && updated.status === "Published") {
+      toast.success(`✅ "${updated.title}" is now live on your public portfolio!`);
     }
+  };
+
+  const handleUnpublish = () => {
+    if (!unpublishTarget) return;
+    const updated = projectStore.togglePublishStatus(unpublishTarget.id);
+    if (updated && updated.status === "Draft") {
+      toast.success(`"${updated.title}" moved to Drafts. Removed from public portfolio.`);
+    }
+    setUnpublishTarget(null);
   };
 
   const handleToggleFeatured = (id: string) => {
@@ -65,11 +77,11 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleDelete = (id: string, title: string) => {
-    if (window.confirm(`Are you sure you want to delete "${title}"?`)) {
-      projectStore.deleteProject(id);
-      toast.success(`Deleted project "${title}"`);
-    }
+  const handleDelete = () => {
+    if (!deleteTarget) return;
+    projectStore.deleteProject(deleteTarget.id);
+    toast.success(`Permanently deleted "${deleteTarget.title}"`);
+    setDeleteTarget(null);
   };
 
   return (
@@ -256,22 +268,21 @@ const AdminDashboard = () => {
                 </div>
               </div>
 
-              {/* Right Controls */}
-              <div className="flex items-center gap-2.5 self-end sm:self-center">
-                {/* Publish Toggle Button */}
-                <button
-                  type="button"
-                  onClick={() => handleTogglePublish(p.id)}
-                  className={`px-3 py-1 rounded-full text-xs font-mono font-medium transition-all ${
+              {/* Right Controls — status-specific actions */}
+              <div className="flex items-center gap-2 self-end sm:self-center">
+
+                {/* Status Badge */}
+                <span
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-mono font-medium select-none ${
                     p.status === "Published"
-                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 hover:bg-emerald-500/20"
-                      : "bg-amber-500/10 text-amber-300 border border-amber-500/25 hover:bg-amber-500/20"
+                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/25"
+                      : "bg-amber-500/10 text-amber-300 border border-amber-500/25"
                   }`}
                 >
-                  {p.status}
-                </button>
+                  {p.status === "Published" ? "● Published" : "◌ Draft"}
+                </span>
 
-                {/* Edit Link */}
+                {/* Edit — always visible */}
                 <Button
                   asChild
                   size="sm"
@@ -284,34 +295,81 @@ const AdminDashboard = () => {
                   </Link>
                 </Button>
 
-                {/* Live Demo Link */}
-                {p.liveUrl && (
-                  <a
-                    href={p.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-lg text-slate-400 hover:text-amber-400 transition-colors"
-                    title="Open Live App"
+                {p.status === "Published" ? (
+                  /* ── PUBLISHED actions: Unpublish ── */
+                  <button
+                    type="button"
+                    onClick={() => setUnpublishTarget({ id: p.id, title: p.title })}
+                    className="px-3 py-1.5 rounded-xl text-xs font-medium bg-amber-500/10 text-amber-300 border border-amber-500/25 hover:bg-amber-500/20 transition-all flex items-center gap-1.5"
+                    title="Unpublish — move to Drafts"
                   >
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                )}
+                    <EyeOff className="w-3.5 h-3.5" />
+                    Unpublish
+                  </button>
+                ) : (
+                  /* ── DRAFT actions: Preview, Publish, Delete ── */
+                  <>
+                    {p.liveUrl && (
+                      <a
+                        href={p.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 rounded-xl text-xs font-medium bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:bg-white/[0.08] transition-all flex items-center gap-1.5"
+                        title="Preview"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        Preview
+                      </a>
+                    )}
 
-                {/* Delete Button */}
-                <button
-                  type="button"
-                  onClick={() => handleDelete(p.id, p.title)}
-                  className="p-2 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
-                  title="Delete Project"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                    <button
+                      type="button"
+                      onClick={() => handlePublish(p.id)}
+                      className="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 hover:bg-emerald-500/25 transition-all flex items-center gap-1.5"
+                      title="Publish to live portfolio"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      Publish
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setDeleteTarget({ id: p.id, title: p.title })}
+                      className="p-2 rounded-xl text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all"
+                      title="Delete permanently"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}
         </div>
 
       </div>
+
+      {/* ── Unpublish Confirmation ── */}
+      <ConfirmDialog
+        open={!!unpublishTarget}
+        onOpenChange={(open) => !open && setUnpublishTarget(null)}
+        title="Unpublish this project?"
+        description="This will remove it from your public portfolio, but your project will remain safely saved in Drafts. You can publish it again anytime."
+        confirmLabel="Unpublish"
+        confirmVariant="warning"
+        onConfirm={handleUnpublish}
+      />
+
+      {/* ── Delete Confirmation ── */}
+      <ConfirmDialog
+        open={!!deleteTarget}
+        onOpenChange={(open) => !open && setDeleteTarget(null)}
+        title="Delete this project permanently?"
+        description="This action cannot be undone. All project data including description, technologies, URLs, and images will be permanently removed."
+        confirmLabel="Delete Permanently"
+        confirmVariant="danger"
+        onConfirm={handleDelete}
+      />
 
     </div>
   );

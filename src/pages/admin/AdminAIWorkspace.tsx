@@ -1079,7 +1079,9 @@ export const AdminAIWorkspace = () => {
               className="bg-[#0c1020] border border-white/10 rounded-2xl p-6 max-w-md w-full shadow-2xl"
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-rose-500/20 flex items-center justify-center">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                  confirmAction.type === "delete" ? "bg-rose-500/20" : "bg-amber-500/20"
+                }`}>
                   {confirmAction.type === "delete" ? (
                     <Trash2 className="w-5 h-5 text-rose-400" />
                   ) : (
@@ -1088,20 +1090,31 @@ export const AdminAIWorkspace = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white">
-                    {confirmAction.type === "delete" ? "Delete Project?" : "Unpublish Project?"}
+                    {confirmAction.type === "delete" ? "Delete project permanently?" : "Unpublish this project?"}
                   </h3>
                   <p className="text-xs text-slate-400">
                     {confirmAction.type === "delete"
                       ? "This action cannot be undone."
-                      : "Unpublish this project from your public portfolio?"}
+                      : "It will be removed from your public portfolio."}
                   </p>
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-4">
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-3">
                 <p className="text-xs font-bold text-white">{confirmAction.project.title}</p>
                 <p className="text-[11px] text-slate-400">{confirmAction.project.category} · {confirmAction.project.status}</p>
               </div>
+
+              {confirmAction.type === "unpublish" && (
+                <p className="text-[11px] text-emerald-400/80 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-3 py-2 mb-4">
+                  ✓ Your project data, GitHub URL, live URL, and all details will remain safely saved in Drafts.
+                </p>
+              )}
+              {confirmAction.type === "delete" && (
+                <p className="text-[11px] text-rose-400/80 bg-rose-500/10 border border-rose-500/20 rounded-xl px-3 py-2 mb-4">
+                  ⚠ All project data including description, technologies, URLs, and images will be permanently removed.
+                </p>
+              )}
 
               <div className="flex gap-2">
                 <Button
