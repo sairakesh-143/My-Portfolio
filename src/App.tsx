@@ -10,11 +10,14 @@ import NotFound from "./pages/NotFound";
 
 // Admin System
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
+import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminAIWorkspace } from "./pages/admin/AdminAIWorkspace";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminProjectForm from "./pages/admin/AdminProjectForm";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminMessages from "./pages/admin/AdminMessages";
+import AdminAIAssistant from "./pages/admin/AdminAIAssistant";
 
 const queryClient = new QueryClient();
 
@@ -28,57 +31,36 @@ const App = () => (
           {/* Public Portfolio Route (100% clean & AI-free) */}
           <Route path="/" element={<Index />} />
 
-          {/* Private Admin Route (Protected by Single-Password Lock Screen) */}
+          {/* Private Admin Routes — all wrapped in AdminLayout with sidebar */}
           <Route
             path="/admin"
             element={
               <ProtectedRoute>
-                <AdminAIWorkspace />
+                <AdminLayout />
               </ProtectedRoute>
             }
-          />
+          >
+            {/* /admin → Dashboard overview */}
+            <Route index element={<AdminDashboard />} />
 
-          {/* Additional Admin Management Routes */}
-          <Route
-            path="/admin/projects"
-            element={
-              <ProtectedRoute>
-                <AdminProjects />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/projects/new"
-            element={
-              <ProtectedRoute>
-                <AdminProjectForm />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/projects/:id/edit"
-            element={
-              <ProtectedRoute>
-                <AdminProjectForm />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/settings"
-            element={
-              <ProtectedRoute>
-                <AdminSettings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/messages"
-            element={
-              <ProtectedRoute>
-                <AdminMessages />
-              </ProtectedRoute>
-            }
-          />
+            {/* /admin/projects → Projects list */}
+            <Route path="projects" element={<AdminProjects />} />
+
+            {/* /admin/projects/new → Create project form */}
+            <Route path="projects/new" element={<AdminProjectForm />} />
+
+            {/* /admin/projects/:id/edit → Edit existing project */}
+            <Route path="projects/:id/edit" element={<AdminProjectForm />} />
+
+            {/* /admin/ai-assistant → Full AI workspace */}
+            <Route path="ai-assistant" element={<AdminAIWorkspace />} />
+
+            {/* /admin/messages → Contact inquiries */}
+            <Route path="messages" element={<AdminMessages />} />
+
+            {/* /admin/settings → Admin settings */}
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
 
           {/* Catch-all 404 Route */}
           <Route path="*" element={<NotFound />} />
