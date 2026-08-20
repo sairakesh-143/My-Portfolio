@@ -144,6 +144,13 @@ export const projectStore = {
     return this.getProjects().find((p) => p.id === id);
   },
 
+  findBySlugOrTitle(nameOrSlug: string): ProjectItem | undefined {
+    const lower = nameOrSlug.toLowerCase();
+    return this.getProjects().find(
+      (p) => p.slug.toLowerCase() === lower || p.title.toLowerCase() === lower
+    );
+  },
+
   saveProject(project: Omit<ProjectItem, "id" | "createdAt" | "updatedAt"> & { id?: string }): ProjectItem {
     const projects = this.getProjects();
     const now = new Date().toISOString();
@@ -165,8 +172,13 @@ export const projectStore = {
       }
     }
 
-    // Create new
-    const newId = project.slug || project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || `proj-${Date.now()}`;
+    // Create new — ensure unique ID
+    let baseId = project.slug || project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || `proj-${Date.now()}`;
+    let newId = baseId;
+    // If an entry with this ID already exists, append a timestamp to make it unique
+    if (projects.some((p) => p.id === newId)) {
+      newId = `${baseId}-${Date.now()}`;
+    }
     const newProject: ProjectItem = {
       ...project,
       id: newId,
