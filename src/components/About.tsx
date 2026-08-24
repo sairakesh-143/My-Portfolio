@@ -22,10 +22,10 @@ export default function About() {
           </p>
         </div>
 
-        {/* Top Grid: Bio & Image on Left, Personal Info on Right */}
+        {/* Top Grid: Bio + Photo on Left, Personal Info on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
           
-          {/* Left: Bio Narrative & Stats */}
+          {/* Left: Bio Narrative with Developer Photo */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -33,17 +33,38 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 space-y-6"
           >
-            <div className="rounded-2xl bg-[#0E1322]/80 backdrop-blur-xl border border-slate-800 p-6 sm:p-8">
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-purple-400" />
-                <span>Passionate Developer & Lifelong Learner</span>
-              </h3>
-              <p className="text-slate-300 leading-relaxed mb-4">
-                {portfolioData.personal.aboutBio}
-              </p>
-              <p className="text-slate-400 leading-relaxed">
-                As a 3rd-year B.Tech student, I bridge the gap between theoretical knowledge and production engineering by actively developing AI applications, RAG pipelines, and full-stack web platforms. I thrive in hackathon environments and believe in continuous experimentation.
-              </p>
+            {/* Bio Card with Developer Portrait Photo */}
+            <div className="rounded-2xl bg-[#0E1322]/85 backdrop-blur-xl border border-slate-800 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-center sm:items-start">
+              
+              {/* Profile Photo Frame */}
+              <div className="relative w-36 h-44 sm:w-44 sm:h-52 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-[0_0_30px_rgba(139,92,246,0.3)] flex-shrink-0 bg-dark-900 group">
+                <img
+                  src="/profile.jpg"
+                  alt={portfolioData.personal.fullName}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-2 left-2 right-2 text-center">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-black/80 text-purple-300 border border-purple-500/30 backdrop-blur-sm">
+                    KIET '28
+                  </span>
+                </div>
+              </div>
+
+              {/* Bio Narrative */}
+              <div className="flex-1 text-left">
+                <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-purple-400" />
+                  <span>Passionate Developer & Builder</span>
+                </h3>
+                <p className="text-slate-300 text-sm leading-relaxed mb-3">
+                  {portfolioData.personal.aboutBio}
+                </p>
+                <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                  As a 3rd-year B.Tech student in AI & Full-Stack Development, I focus on shipping practical AI applications, RAG pipelines, and responsive web products. I thrive in hackathons and love turning ideas into functional software.
+                </p>
+              </div>
+
             </div>
 
             {/* 3 Stats Cards */}
