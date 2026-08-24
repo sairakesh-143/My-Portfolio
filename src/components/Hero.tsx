@@ -118,84 +118,130 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Column: Futuristic AI / Laptop / Tech Graphics */}
+          {/* Right Column: AI Workspace Card + Floating Portrait */}
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 relative flex items-center justify-center"
+            className="lg:col-span-5 relative flex flex-col items-center justify-center"
           >
             {/* Glowing Backdrop Circle */}
             <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/20 via-blue-600/10 to-cyan-500/10 rounded-3xl blur-2xl -z-10" />
 
-            {/* Laptop Mockup Box with AI Code Editor Visual */}
-            <div className="relative w-full max-w-[460px] rounded-2xl bg-[#0E1322]/90 border border-purple-500/30 p-4 sm:p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl">
-              
-              {/* Window Header */}
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800 text-xs font-mono text-slate-400">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <span className="w-3 h-3 rounded-full bg-amber-500/80" />
-                  <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                  <span className="ml-2 text-slate-300 font-medium">ai-workspace.tsx</span>
+            {/* Mobile: Portrait shown above the card */}
+            <div className="flex lg:hidden flex-col items-center mb-6">
+              <div className="relative">
+                {/* Neon glow behind portrait (mobile) */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/40 via-blue-500/30 to-cyan-500/20 blur-xl scale-110 -z-10" />
+                <div className="w-[100px] h-[100px] sm:w-[110px] sm:h-[110px] rounded-full overflow-hidden border-[3px] border-transparent bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 p-[3px] shadow-[0_0_30px_rgba(139,92,246,0.4)]">
+                  <img
+                    src="/hero-portrait.png"
+                    alt="Bhargava Sai Rakesh Reddy"
+                    className="w-full h-full rounded-full object-cover bg-[#0E1322]"
+                  />
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                  RAG Pipeline Active
-                </span>
+              </div>
+              <div className="mt-3 text-center">
+                <div className="text-sm font-bold text-white leading-tight">Bhargava Sai Rakesh Reddy</div>
+                <div className="text-[11px] text-purple-300 font-semibold mt-0.5">AI & Full-Stack Developer</div>
+              </div>
+            </div>
+
+            {/* AI Workspace Card Container (with relative positioning for portrait overlay) */}
+            <div className="relative w-full max-w-[460px]">
+
+              {/* Floating Portrait Badge — Desktop (overlaps top-right corner) */}
+              <div className="hidden lg:flex flex-col items-center absolute -top-14 -right-10 z-20">
+                <div className="relative group">
+                  {/* Neon glow behind portrait */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/50 via-blue-500/40 to-cyan-400/30 blur-lg scale-125 -z-10 group-hover:scale-[1.35] transition-transform duration-500" />
+                  {/* Portrait ring */}
+                  <div className="w-[140px] h-[140px] xl:w-[155px] xl:h-[155px] rounded-full overflow-hidden border-[3px] border-transparent shadow-[0_0_40px_rgba(139,92,246,0.45),0_0_80px_rgba(59,130,246,0.2)] group-hover:shadow-[0_0_50px_rgba(139,92,246,0.6),0_0_100px_rgba(59,130,246,0.3)] transition-shadow duration-500" style={{ background: "linear-gradient(135deg, #8B5CF6, #3B82F6, #06B6D4) padding-box, linear-gradient(135deg, #8B5CF6, #3B82F6, #06B6D4) border-box" }}>
+                    <div className="w-full h-full rounded-full overflow-hidden border-[2px] border-[#0E1322]">
+                      <img
+                        src="/hero-portrait.png"
+                        alt="Bhargava Sai Rakesh Reddy"
+                        className="w-full h-full rounded-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* Name label below portrait */}
+                <div className="mt-2.5 px-3 py-1.5 rounded-xl bg-[#0E1322]/95 backdrop-blur-xl border border-purple-500/30 text-center shadow-lg">
+                  <div className="text-[11px] font-bold text-white leading-tight tracking-wide">Bhargava Sai Rakesh</div>
+                  <div className="text-[10px] text-purple-300 font-semibold mt-0.5">AI & Full-Stack Developer</div>
+                </div>
               </div>
 
-              {/* Code Snippet Screen */}
-              <div className="p-3.5 rounded-xl bg-[#070B14] border border-slate-800/80 font-mono text-xs text-slate-300 leading-relaxed overflow-hidden">
-                <div className="flex items-center gap-2 text-purple-400 mb-2">
-                  <Terminal className="w-3.5 h-3.5" />
-                  <span className="text-[11px] font-semibold text-slate-400">// Intelligent AI Architecture</span>
-                </div>
-                <p className="text-slate-400">
-                  <span className="text-blue-400">const</span> <span className="text-purple-300">architect</span> = <span className="text-cyan-400">new</span> <span className="text-emerald-400">RAGPipeline</span>({`{`}
-                </p>
-                <p className="pl-4 text-slate-400">
-                  model: <span className="text-amber-300">"Gemini-2.0-Flash"</span>,
-                </p>
-                <p className="pl-4 text-slate-400">
-                  vectorStore: <span className="text-amber-300">"pgvector/Supabase"</span>,
-                </p>
-                <p className="pl-4 text-slate-400">
-                  retrieval: <span className="text-purple-400">true</span>,
-                </p>
-                <p className="text-slate-400">{`}`});</p>
-                <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-                  <span className="text-emerald-400 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                    Response time: 42ms
+              {/* Laptop Mockup Box with AI Code Editor Visual */}
+              <div className="relative w-full rounded-2xl bg-[#0E1322]/90 border border-purple-500/30 p-4 sm:p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl">
+                
+                {/* Window Header */}
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800 text-xs font-mono text-slate-400">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded-full bg-red-500/80" />
+                    <span className="w-3 h-3 rounded-full bg-amber-500/80" />
+                    <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
+                    <span className="ml-2 text-slate-300 font-medium">ai-workspace.tsx</span>
+                  </div>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    RAG Pipeline Active
                   </span>
-                  <span className="text-purple-300 font-semibold">100% Accuracy</span>
                 </div>
-              </div>
 
-              {/* Visual Tech Floating Badges */}
-              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
-                  <Code2 className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>React.js</span>
+                {/* Code Snippet Screen */}
+                <div className="p-3.5 rounded-xl bg-[#070B14] border border-slate-800/80 font-mono text-xs text-slate-300 leading-relaxed overflow-hidden">
+                  <div className="flex items-center gap-2 text-purple-400 mb-2">
+                    <Terminal className="w-3.5 h-3.5" />
+                    <span className="text-[11px] font-semibold text-slate-400">// Intelligent AI Architecture</span>
+                  </div>
+                  <p className="text-slate-400">
+                    <span className="text-blue-400">const</span> <span className="text-purple-300">architect</span> = <span className="text-cyan-400">new</span> <span className="text-emerald-400">RAGPipeline</span>({`{`}
+                  </p>
+                  <p className="pl-4 text-slate-400">
+                    model: <span className="text-amber-300">"Gemini-2.0-Flash"</span>,
+                  </p>
+                  <p className="pl-4 text-slate-400">
+                    vectorStore: <span className="text-amber-300">"pgvector/Supabase"</span>,
+                  </p>
+                  <p className="pl-4 text-slate-400">
+                    retrieval: <span className="text-purple-400">true</span>,
+                  </p>
+                  <p className="text-slate-400">{`}`});</p>
+                  <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+                    <span className="text-emerald-400 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                      Response time: 42ms
+                    </span>
+                    <span className="text-purple-300 font-semibold">100% Accuracy</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
-                  <Brain className="w-3.5 h-3.5 text-purple-400" />
-                  <span>Python</span>
-                </div>
-                <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
-                  <Database className="w-3.5 h-3.5 text-blue-400" />
-                  <span>Supabase</span>
-                </div>
-                <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
-                  <Cpu className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>RAG / AI</span>
-                </div>
-              </div>
 
-              {/* Floating Decorative Badges */}
-              <div className="absolute -top-3 -right-3 px-3 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-semibold shadow-lg shadow-purple-500/40 flex items-center gap-1.5 animate-bounce">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>3rd Year B.Tech</span>
+                {/* Visual Tech Floating Badges */}
+                <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
+                    <Code2 className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>React.js</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
+                    <Brain className="w-3.5 h-3.5 text-purple-400" />
+                    <span>Python</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
+                    <Database className="w-3.5 h-3.5 text-blue-400" />
+                    <span>Supabase</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
+                    <Cpu className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>RAG / AI</span>
+                  </div>
+                </div>
+
+                {/* 3rd Year B.Tech Badge — repositioned to top-left to avoid portrait overlap */}
+                <div className="absolute -top-3 -left-3 lg:-top-3 lg:-left-3 px-3 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-semibold shadow-lg shadow-purple-500/40 flex items-center gap-1.5 animate-bounce z-10">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>3rd Year B.Tech</span>
+                </div>
               </div>
             </div>
           </motion.div>
