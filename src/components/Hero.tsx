@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Download, Github, Linkedin, Mail, Sparkles, Terminal, Code2, Database, Brain, Cpu, Globe, Zap } from "lucide-react";
+import { ArrowRight, Download, Github, Linkedin, Mail, Sparkles, Brain, Globe, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 
@@ -25,8 +25,8 @@ export default function Hero() {
       <div className="max-w-[1360px] mx-auto px-4 sm:px-8 w-full">
         {/* Main Hero Split Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          
-          {/* Left Column: Headline, Bio, Buttons, Socials */}
+
+          {/* ── LEFT COLUMN: Headline, Bio, Buttons, Socials ── */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
@@ -36,7 +36,7 @@ export default function Hero() {
             {/* Top Pill Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold tracking-wider uppercase mb-5 shadow-[0_0_15px_rgba(139,92,246,0.2)]">
               <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-              <span>AI & FULL-STACK DEVELOPER</span>
+              <span>AI &amp; FULL-STACK DEVELOPER</span>
             </div>
 
             {/* Main Headline */}
@@ -51,7 +51,7 @@ export default function Hero() {
             <h2 className="text-lg sm:text-xl font-semibold text-slate-300 mb-4 flex items-center gap-2">
               <span>B.Tech Student</span>
               <span className="text-purple-500">|</span>
-              <span className="text-purple-300">AI & Full-Stack Developer</span>
+              <span className="text-purple-300">AI &amp; Full-Stack Developer</span>
             </h2>
 
             {/* Concise Value Proposition */}
@@ -118,127 +118,77 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Column: AI Workspace Card + Floating Portrait */}
+          {/* ── RIGHT COLUMN: Premium Portrait Card ── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 relative flex flex-col items-center justify-center"
           >
-            {/* Glowing Backdrop Circle */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/20 via-blue-600/10 to-cyan-500/10 rounded-3xl blur-2xl -z-10" />
+            {/* Outer ambient glow blob */}
+            <div className="absolute -inset-4 bg-gradient-to-tr from-purple-600/20 via-blue-600/10 to-cyan-500/10 rounded-3xl blur-2xl -z-10" />
 
-            {/* Mobile: Portrait shown above the card */}
-            <div className="flex lg:hidden flex-col items-center mb-6">
+            {/* ── Mobile: compact circular portrait ── */}
+            <div className="flex lg:hidden flex-col items-center mb-8">
               <div className="relative">
-                {/* Neon glow behind portrait (mobile) */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/40 via-blue-500/30 to-cyan-500/20 blur-xl scale-110 -z-10" />
-                <div className="w-[100px] h-[100px] sm:w-[110px] sm:h-[110px] rounded-full overflow-hidden border-[3px] border-transparent bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 p-[3px] shadow-[0_0_30px_rgba(139,92,246,0.4)]">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/50 via-blue-500/30 to-cyan-500/20 blur-xl scale-110 -z-10" />
+                <div className="w-[110px] h-[110px] rounded-full overflow-hidden border-[3px] border-purple-500/60 shadow-[0_0_30px_rgba(139,92,246,0.5)]">
                   <img
                     src="/hero-portrait.png"
                     alt="Bhargava Sai Rakesh Reddy"
-                    className="w-full h-full rounded-full object-cover bg-[#0E1322]"
+                    className="w-full h-full object-cover object-top"
                   />
+                </div>
+                <div className="absolute -top-1 -right-1 px-2 py-0.5 rounded-lg bg-purple-600 text-white text-[10px] font-semibold shadow-md flex items-center gap-1">
+                  <Sparkles className="w-3 h-3" />
+                  <span>3rd Year</span>
                 </div>
               </div>
               <div className="mt-3 text-center">
-                <div className="text-sm font-bold text-white leading-tight">Bhargava Sai Rakesh Reddy</div>
-                <div className="text-[11px] text-purple-300 font-semibold mt-0.5">AI & Full-Stack Developer</div>
+                <div className="text-sm font-bold text-white">Bhargava Sai Rakesh Reddy</div>
+                <div className="text-[11px] text-purple-300 font-semibold mt-0.5">AI &amp; Full-Stack Developer</div>
               </div>
             </div>
 
-            {/* AI Workspace Card Container (with relative positioning for portrait overlay) */}
-            <div className="relative w-full max-w-[460px]">
+            {/* ── Desktop: full portrait card ── */}
+            <div className="hidden lg:block relative w-full max-w-[420px] group">
 
-              {/* Floating Portrait Badge — Desktop (overlaps top-right corner) */}
-              <div className="hidden lg:flex flex-col items-center absolute -top-14 -right-10 z-20">
-                <div className="relative group">
-                  {/* Neon glow behind portrait */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/50 via-blue-500/40 to-cyan-400/30 blur-lg scale-125 -z-10 group-hover:scale-[1.35] transition-transform duration-500" />
-                  {/* Portrait ring */}
-                  <div className="w-[140px] h-[140px] xl:w-[155px] xl:h-[155px] rounded-full overflow-hidden border-[3px] border-transparent shadow-[0_0_40px_rgba(139,92,246,0.45),0_0_80px_rgba(59,130,246,0.2)] group-hover:shadow-[0_0_50px_rgba(139,92,246,0.6),0_0_100px_rgba(59,130,246,0.3)] transition-shadow duration-500" style={{ background: "linear-gradient(135deg, #8B5CF6, #3B82F6, #06B6D4) padding-box, linear-gradient(135deg, #8B5CF6, #3B82F6, #06B6D4) border-box" }}>
-                    <div className="w-full h-full rounded-full overflow-hidden border-[2px] border-[#0E1322]">
-                      <img
-                        src="/hero-portrait.png"
-                        alt="Bhargava Sai Rakesh Reddy"
-                        className="w-full h-full rounded-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-                {/* Name label below portrait */}
-                <div className="mt-2.5 px-3 py-1.5 rounded-xl bg-[#0E1322]/95 backdrop-blur-xl border border-purple-500/30 text-center shadow-lg">
-                  <div className="text-[11px] font-bold text-white leading-tight tracking-wide">Bhargava Sai Rakesh</div>
-                  <div className="text-[10px] text-purple-300 font-semibold mt-0.5">AI & Full-Stack Developer</div>
-                </div>
-              </div>
+              {/* Glowing ring around card */}
+              <div className="absolute -inset-[2px] rounded-[20px] bg-gradient-to-br from-purple-500/40 via-blue-500/20 to-cyan-400/20 blur-sm opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
 
-              {/* Laptop Mockup Box with AI Code Editor Visual */}
-              <div className="relative w-full rounded-2xl bg-[#0E1322]/90 border border-purple-500/30 p-4 sm:p-5 shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl">
-                
-                {/* Window Header */}
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800 text-xs font-mono text-slate-400">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-red-500/80" />
-                    <span className="w-3 h-3 rounded-full bg-amber-500/80" />
-                    <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                    <span className="ml-2 text-slate-300 font-medium">ai-workspace.tsx</span>
-                  </div>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                    RAG Pipeline Active
+              {/* Main portrait card */}
+              <div className="relative w-full rounded-2xl bg-[#0E1322]/95 border border-purple-500/30 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_50px_rgba(139,92,246,0.15)] backdrop-blur-xl">
+
+                {/* Radial purple glow overlay (behind photo) */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(139,92,246,0.18)_0%,rgba(59,130,246,0.08)_45%,transparent_75%)] pointer-events-none z-10" />
+
+                {/* Portrait image */}
+                <div className="relative w-full" style={{ aspectRatio: "4/5" }}>
+                  <img
+                    src="/hero-portrait.png"
+                    alt="Bhargava Sai Rakesh Reddy — AI & Full-Stack Developer"
+                    className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  />
+                  {/* Bottom fade gradient so label reads cleanly */}
+                  <div className="absolute bottom-0 left-0 right-0 h-44 bg-gradient-to-t from-[#070B14] via-[#070B14]/65 to-transparent pointer-events-none" />
+                  {/* Subtle inner edge shadow for blended look */}
+                  <div className="absolute inset-0 shadow-[inset_0_0_35px_rgba(7,11,20,0.45)] pointer-events-none" />
+                </div>
+
+                {/* Bottom name + role label */}
+                <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 z-20">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[10px] font-semibold tracking-wider uppercase mb-2 backdrop-blur-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                    AI &amp; Full-Stack Developer
                   </span>
+                  <div className="text-sm font-bold text-white leading-tight tracking-tight">
+                    Bhargava Sai Rakesh Reddy
+                  </div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">B.Tech · KIET College · 2028</div>
                 </div>
 
-                {/* Code Snippet Screen */}
-                <div className="p-3.5 rounded-xl bg-[#070B14] border border-slate-800/80 font-mono text-xs text-slate-300 leading-relaxed overflow-hidden">
-                  <div className="flex items-center gap-2 text-purple-400 mb-2">
-                    <Terminal className="w-3.5 h-3.5" />
-                    <span className="text-[11px] font-semibold text-slate-400">// Intelligent AI Architecture</span>
-                  </div>
-                  <p className="text-slate-400">
-                    <span className="text-blue-400">const</span> <span className="text-purple-300">architect</span> = <span className="text-cyan-400">new</span> <span className="text-emerald-400">RAGPipeline</span>({`{`}
-                  </p>
-                  <p className="pl-4 text-slate-400">
-                    model: <span className="text-amber-300">"Gemini-2.0-Flash"</span>,
-                  </p>
-                  <p className="pl-4 text-slate-400">
-                    vectorStore: <span className="text-amber-300">"pgvector/Supabase"</span>,
-                  </p>
-                  <p className="pl-4 text-slate-400">
-                    retrieval: <span className="text-purple-400">true</span>,
-                  </p>
-                  <p className="text-slate-400">{`}`});</p>
-                  <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-                    <span className="text-emerald-400 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      Response time: 42ms
-                    </span>
-                    <span className="text-purple-300 font-semibold">100% Accuracy</span>
-                  </div>
-                </div>
-
-                {/* Visual Tech Floating Badges */}
-                <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
-                    <Code2 className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>React.js</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
-                    <Brain className="w-3.5 h-3.5 text-purple-400" />
-                    <span>Python</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
-                    <Database className="w-3.5 h-3.5 text-blue-400" />
-                    <span>Supabase</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-2 rounded-lg bg-dark-800/80 border border-slate-800 text-xs text-slate-300">
-                    <Cpu className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>RAG / AI</span>
-                  </div>
-                </div>
-
-                {/* 3rd Year B.Tech Badge — repositioned to top-left to avoid portrait overlap */}
-                <div className="absolute -top-3 -left-3 lg:-top-3 lg:-left-3 px-3 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-semibold shadow-lg shadow-purple-500/40 flex items-center gap-1.5 animate-bounce z-10">
+                {/* 3rd Year B.Tech floating badge — top right */}
+                <div className="absolute top-3 right-3 z-20 px-3 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-semibold shadow-lg shadow-purple-500/40 flex items-center gap-1.5 backdrop-blur-sm">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>3rd Year B.Tech</span>
                 </div>
@@ -285,7 +235,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Section: Tech Stack Marquee Strip */}
+        {/* Section: Tech Stack Strip */}
         <div className="mt-16 pt-8 border-t border-slate-800/40 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-slate-400">
           <span className="font-mono text-purple-400 uppercase tracking-wider text-[11px] font-semibold">
             Tech Stack:
