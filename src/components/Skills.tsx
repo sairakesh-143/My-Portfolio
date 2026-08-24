@@ -1,149 +1,108 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Layout, Server, Brain, Wrench, Code2, Sparkles, CheckCircle2, Terminal, Cpu, Network, Flame, Palette, Globe, Atom, FileCode2, Zap, Laptop, Cloud, GitBranch, Github, BarChart3 } from "lucide-react";
-import { portfolioData, SkillCategory } from "@/data/portfolioData";
+import { Layout, Server, Brain, Database, Wrench, ChevronDown, Sparkles, CheckCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { portfolioData } from "@/data/portfolioData";
 
-const categoryIconMap: Record<string, React.ElementType> = {
-  Layout,
-  Server,
-  Brain,
-  Wrench,
-};
+export default function Skills() {
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
-const skillIconMap: Record<string, React.ElementType> = {
-  Atom,
-  FileCode2,
-  Code2,
-  Palette,
-  Globe,
-  Sparkles,
-  Terminal,
-  Cpu,
-  Server,
-  Network,
-  Flame,
-  Brain,
-  BarChart3,
-  GitBranch,
-  Github,
-  Zap,
-  Laptop,
-  Cloud,
-};
+  const toggleCategory = (title: string) => {
+    setExpandedCategory((prev) => (prev === title ? null : title));
+  };
 
-const Skills = () => {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-
-  const categories = ["All", ...portfolioData.skillCategories.map((c) => c.title)];
-
-  const filteredCategories =
-    activeCategory === "All"
-      ? portfolioData.skillCategories
-      : portfolioData.skillCategories.filter((c) => c.title === activeCategory);
+  const getCategoryIcon = (iconName: string) => {
+    switch (iconName) {
+      case "Layout":
+        return <Layout className="w-5 h-5 text-cyan-400" />;
+      case "Server":
+        return <Server className="w-5 h-5 text-blue-400" />;
+      case "Brain":
+        return <Brain className="w-5 h-5 text-purple-400" />;
+      case "Database":
+        return <Database className="w-5 h-5 text-emerald-400" />;
+      case "Wrench":
+      default:
+        return <Wrench className="w-5 h-5 text-amber-400" />;
+    }
+  };
 
   return (
-    <section id="skills" className="py-20 md:py-28 relative">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/3 left-1/4 w-[450px] h-[450px] bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none -z-10" />
+    <section id="skills" className="relative py-20 lg:py-28 overflow-hidden">
+      {/* Background Neon Elements */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-purple-600/10 rounded-full blur-[160px] pointer-events-none -z-10" />
 
-      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-        
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-8 w-full">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-mono mb-3">
-              <Code2 className="w-3.5 h-3.5" />
-              Technical Arsenal
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
-              Skills & Technologies
-            </h2>
-            <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
-              Categorized stack with hands-on proficiency across modern frontend, server architecture, AI algorithms, and deployment toolchains.
-            </p>
-          </div>
-
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setActiveCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                  activeCategory === cat
-                    ? "bg-amber-500 text-black font-semibold shadow-md shadow-amber-500/20"
-                    : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-xs font-mono uppercase tracking-widest text-purple-400 font-semibold mb-2 inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20">
+            Technical Proficiency
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-white tracking-tight mb-3">
+            Skills & Technologies
+          </h2>
+          <p className="text-base sm:text-lg text-slate-400">
+            Technologies, frameworks, and tools I work with to build production systems.
+          </p>
         </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {filteredCategories.map((cat, catIdx) => {
-            const CatIcon = categoryIconMap[cat.iconName] || Code2;
-            return (
-              <motion.div
-                key={cat.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: catIdx * 0.08 }}
-                className="p-7 rounded-3xl bg-[#0b0f1d]/90 border border-white/[0.08] hover:border-amber-500/30 transition-all duration-300 shadow-xl group"
-              >
+        {/* Categorized Skills Grid (Desktop & Tablet) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {portfolioData.skillCategories.map((category, idx) => (
+            <motion.div
+              key={category.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="rounded-2xl bg-[#0E1322]/85 backdrop-blur-xl border border-slate-800 hover:border-purple-500/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(139,92,246,0.16)] flex flex-col justify-between"
+            >
+              <div>
                 {/* Category Header */}
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800/80">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] group-hover:border-amber-500/30 flex items-center justify-center text-amber-400">
-                      <CatIcon className="w-5 h-5" />
+                    <div className="w-10 h-10 rounded-xl bg-dark-800 border border-slate-700/60 flex items-center justify-center">
+                      {getCategoryIcon(category.iconName)}
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white leading-tight">
-                        {cat.title}
+                      <h3 className="text-lg font-bold text-white">
+                        {category.title}
                       </h3>
-                      <p className="text-xs text-slate-400 mt-0.5">
-                        {cat.description}
+                      <p className="text-[11px] text-slate-400">
+                        {category.description}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {/* Skills Badges Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-4 border-t border-white/[0.06]">
-                  {cat.skills.map((skill) => {
-                    const SkillIcon = (skill.iconName && skillIconMap[skill.iconName]) || Code2;
-                    return (
-                      <div
-                        key={skill.name}
-                        className="group/skill flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.06] hover:border-amber-500/30 transition-all"
-                      >
-                        <div className="w-6 h-6 rounded-lg bg-white/[0.04] flex items-center justify-center text-slate-300 group-hover/skill:text-amber-400 transition-colors flex-shrink-0">
-                          <SkillIcon className="w-3.5 h-3.5" />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-xs font-semibold text-white truncate leading-tight group-hover/skill:text-amber-300 transition-colors">
-                            {skill.name}
-                          </p>
-                          <p className="text-[10px] font-mono text-slate-400 leading-none mt-0.5">
-                            {skill.level}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                {/* Skill Chips List */}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {category.skills.map((skill) => (
+                    <span
+                      key={skill.name}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-dark-850 border border-slate-700/60 text-slate-200 text-xs font-medium hover:border-purple-500/50 hover:bg-purple-500/10 hover:text-white transition-all transform hover:scale-105 cursor-default"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                      <span>{skill.name}</span>
+                    </span>
+                  ))}
                 </div>
-              </motion.div>
-            );
-          })}
+              </div>
+
+              {/* Bottom tag */}
+              <div className="mt-5 pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono text-slate-500">
+                <span>{category.skills.length} SKILLS</span>
+                <span className="text-purple-400">ACTIVE STACK</span>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
+        {/* Bottom Banner */}
+        <div className="mt-14 p-6 rounded-2xl bg-dark-850/60 border border-slate-800 text-center max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 text-xs text-slate-300">
+          <Sparkles className="w-4 h-4 text-purple-400 shrink-0" />
+          <span>Always exploring emerging tech, LLM frameworks, vector architectures, and modern web performance.</span>
+        </div>
       </div>
     </section>
   );
-};
-
-export default Skills;
+}

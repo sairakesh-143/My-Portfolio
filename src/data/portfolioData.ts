@@ -11,10 +11,13 @@ export interface Project {
   tags: string[];
   liveUrl?: string;
   githubUrl: string;
-  category: "Full Stack" | "AI & Data" | "Web App";
+  category: "AI / ML" | "Web Development" | "RAG" | "Tools";
   featured: boolean;
   status: string;
-  impactMetric?: string;
+  imageUrl?: string;
+  features?: string[];
+  contribution?: string;
+  architecture?: string;
 }
 
 export interface SkillCategory {
@@ -24,374 +27,357 @@ export interface SkillCategory {
   skills: { name: string; level: string; iconName?: string }[];
 }
 
-export interface MetricHighlight {
-  label: string;
-  value: string;
-  description: string;
-  icon: string;
-}
-
 export interface JourneyMilestone {
   year: string;
   title: string;
-  role: string;
+  subtitle: string;
   description: string;
   badges: string[];
+  icon: string;
+  accentColor: "purple" | "blue" | "cyan" | "emerald" | "amber";
   isCurrent?: boolean;
-}
-
-export interface GithubRepo {
-  name: string;
-  description: string;
-  stars: number;
-  forks: number;
-  language: string;
-  url: string;
 }
 
 export const portfolioData = {
   personal: {
     name: "Rakesh",
     fullName: "Bhargava Sai Rakesh Reddy",
-    initials: "BRS",
     title: "AI & Full-Stack Developer",
-    statusBadge: "Available for Internship",
-    availabilityDetail:
-      "Currently seeking Full-Stack, AI, and Software Engineering internships (Summer / Fall). Ready to build impactful, scalable products.",
-    shortBio:
-      "I build intelligent, production-ready web applications that turn real-world problems into scalable digital solutions.",
+    badge: "AI & FULL-STACK DEVELOPER",
+    subheading: "B.Tech Student | AI & Full-Stack Developer",
+    shortDescription:
+      "Building practical AI-powered solutions, full-stack applications, and learning by creating real-world projects.",
+    aboutBio:
+      "I'm a passionate developer who loves turning ideas into real-world solutions. I enjoy working with modern technologies and building products that make an impact.",
     location: "Kakinada, Andhra Pradesh, India",
-    profilePhoto: "/profile.jpg",
-    proofStats: [
-      { label: "Projects Built", value: "3+ Production Ready" },
-      { label: "Core Focus", value: "AI + Full Stack" },
-      { label: "Opportunity", value: "Open for Internships" },
-    ],
-    education: {
-      degree: "B.Tech in Artificial Intelligence & Data Science",
-      institution: "KIET College, Kakinada (Korangi)",
-      status: "Undergraduate Student (Class of 2028)",
-      timeline: "2024 – 2028",
-    },
+    education: "B.Tech — 3rd Year (Class of 2028)",
+    branch: "Computer Science & Engineering / AI & DS",
+    college: "KIET College, Kakinada",
+    experience: "Fresher / Active Builder",
+    interests: "AI, Web Dev, RAG, Open Source, Problem Solving",
     email: "sairakesh.dev@gmail.com",
     github: "https://github.com/sairakesh-143",
     linkedin: "https://www.linkedin.com/in/rakesh-reddy-450787321/",
-    resumeUrl: "https://github.com/sairakesh-143", // Fallback to GitHub / downloadable resume link
+    resumeUrl: "https://github.com/sairakesh-143",
+    stats: [
+      { label: "Projects", value: "12+", description: "Built & Shipped" },
+      { label: "Technologies", value: "15+", description: "Worked With" },
+      { label: "Hackathons", value: "Multiple", description: "Participated & Won" },
+    ],
   },
 
-  highlights: [
+  whatIDo: [
     {
-      label: "Production Projects",
-      value: "3+",
-      description: "WareMind, Finance & Healthcare AI",
-      icon: "Code2",
-    },
-    {
-      label: "Core Specialization",
-      value: "AI + Full Stack",
-      description: "Modern web apps & intelligent models",
-      icon: "Brain",
-    },
-    {
-      label: "Hands-on Experience",
-      value: "Problem Solver",
-      description: "Clean architecture & practical APIs",
-      icon: "Layers",
-    },
-    {
-      label: "Graduation Target",
-      value: "2028",
-      description: "B.Tech (AI & DS) · KIET College",
-      icon: "GraduationCap",
-    },
-  ] as MetricHighlight[],
-
-  whatIBuild: [
-    {
-      id: "ai-apps",
-      title: "AI-Powered Applications",
+      id: "ai-rag",
+      title: "AI & RAG",
       description:
-        "Intelligent applications combining smart decision-making models, AI APIs, predictive logic, and automated workflows.",
+        "Building AI applications using LLMs, RAG, vector databases and prompt engineering.",
       icon: "Brain",
-      points: [
-        "AI integrations & intelligent task automation",
-        "Predictive classification & anomaly detection logic",
-        "Data-driven conversational and analytics features",
-      ],
-      tag: "Intelligent Systems",
+      accent: "purple",
     },
     {
       id: "full-stack",
-      title: "Full-Stack Web Apps",
+      title: "Full Stack",
       description:
-        "Modern frontend, backend, and database architectures engineered for speed, high performance, and great user experience.",
-      icon: "Laptop",
-      points: [
-        "Component-driven React & TypeScript architecture",
-        "Secure RESTful APIs, Node.js & Firebase backends",
-        "Mobile-first, responsive, and accessible UI engineering",
-      ],
-      tag: "End-to-End Solutions",
+        "Building web applications using React, Python, modern APIs and databases.",
+      icon: "Globe",
+      accent: "blue",
     },
     {
-      id: "data-products",
-      title: "Data-Driven Products",
+      id: "problem-solving",
+      title: "Problem Solving",
       description:
-        "Dashboards, analytics engines, and practical data tools turning complex raw inputs into clear, actionable business metrics.",
-      icon: "BarChart3",
-      points: [
-        "Real-time data visualization & interactive metrics",
-        "Inventory tracking, financial flows & healthcare audits",
-        "High-density, responsive dashboard dashboards",
-      ],
-      tag: "Analytics & Insights",
+        "Turning ideas into functional software solutions and hackathon prototypes.",
+      icon: "Zap",
+      accent: "cyan",
     },
+  ],
+
+  approach: [
+    {
+      title: "Learn",
+      description: "Continuously exploring new technologies and best practices.",
+      icon: "BookOpen",
+      tag: "01",
+    },
+    {
+      title: "Build",
+      description: "Turning knowledge into practical, user-focused applications.",
+      icon: "Hammer",
+      tag: "02",
+    },
+    {
+      title: "Ship",
+      description: "Delivering quality products with clean, tested, and reliable code.",
+      icon: "Rocket",
+      tag: "03",
+    },
+  ],
+
+  toolsDaily: [
+    { name: "Git", category: "VCS" },
+    { name: "GitHub", category: "Platform" },
+    { name: "VS Code", category: "Editor" },
+    { name: "Postman", category: "API Testing" },
+    { name: "Supabase", category: "Backend" },
+    { name: "Figma", category: "Design" },
+    { name: "Chrome DevTools", category: "Debugging" },
   ],
 
   projects: [
     {
-      id: "waremind-ai",
-      title: "WareMind AI",
-      subtitle: "Smart Warehouse Operations & Order Fulfillment System",
+      id: "hacklens",
+      title: "HackLens",
+      subtitle: "AI-Powered Hackathon Project Assistant",
       description:
-        "An intelligent warehouse operations platform designed to automate inventory visibility, order prioritization, smart batching, fulfillment tracking, and operational decisions.",
+        "An AI assistant that helps hackathon participants generate ideas, plan architecture, get live tech stack recommendations, and build projects faster.",
       problemSolution: {
         problem:
-          "Traditional fulfillment centers suffer from inventory blind spots, slow manual batching, and stockout delays that hurt SLA fulfillment times.",
+          "Hackathon participants struggle to come up with unique ideas, structured architectures, and optimal tech stacks under strict time constraints.",
         solution:
-          "WareMind AI provides automated order prioritization, real-time multi-zone inventory allocation, predictive replenishment triggers, and live operator routing.",
+          "HackLens uses LLMs and RAG pipelines to generate tailored project plans, recommend scalable tech stacks, and create complete implementation roadmaps in seconds.",
       },
       highlights: [
-        "Real-time inventory visibility across multi-zone warehouse layouts",
-        "Automated order prioritization & dynamic allocation engine",
-        "Fulfillment bottleneck analytics & worker task routing",
-        "Sub-100ms UI interactions with responsive data tables",
+        "AI-driven concept generation & novelty evaluation",
+        "Automated tech stack recommendations based on constraints",
+        "Interactive RAG chat assistant for debugging & architecture",
+        "Instant markdown export of full implementation blueprint",
       ],
-      tags: ["React", "TypeScript", "Node.js", "Tailwind CSS", "REST APIs", "Analytics"],
+      features: [
+        "Idea Generation Engine",
+        "Project Architecture Blueprint",
+        "Tech Stack Suggestion",
+        "AI Chat Assistant (Gemini & Groq)",
+        "One-click Project Plan Export",
+      ],
+      contribution: "Full-Stack Development, RAG Pipeline, UI/UX Design & Prompt Engineering",
+      architecture: "React.js + Python FastAPI + Supabase pgvector + Gemini & Groq APIs",
+      tags: ["React.js", "Python", "Supabase", "PostgreSQL", "Gemini", "Groq", "RAG"],
+      category: "AI / ML",
+      featured: true,
+      status: "Published",
       liveUrl: "https://dbsr.netlify.app/",
       githubUrl: "https://github.com/sairakesh-143",
-      category: "Full Stack",
-      featured: true,
-      status: "Production Ready",
-      impactMetric: "Real-Time Multi-Zone Allocation",
+      imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80",
     },
     {
-      id: "ai-finance-dashboard",
-      title: "AI Finance",
-      subtitle: "Intelligent Personal Finance & Budget Analytics Dashboard",
+      id: "smart-waste-sorting",
+      title: "Smart Waste Sorting Assistant",
+      subtitle: "Computer Vision + AI Recycling Guidance",
       description:
-        "A full-featured personal financial analytics dashboard that visualizes cash flows, detects spending anomalies, and provides predictive budget recommendations.",
+        "An intelligent assistant that detects waste type from images and camera feeds, suggesting proper disposal methods and recycling classification in real-time.",
       problemSolution: {
         problem:
-          "Individuals and small teams struggle to aggregate multi-channel expenses, spot sneaky recurring charges, and forecast month-end balance shortfalls.",
+          "Improper waste disposal leads to recycling contamination and environmental degradation due to lack of immediate sorting guidance.",
         solution:
-          "Visualizes spending trends with automated anomaly detection, recurring charge classification, and interactive predictive budget forecasting charts.",
+          "Uses computer vision classification models to instantly identify recyclable, organic, and hazardous waste categories with step-by-step disposal advice.",
       },
       highlights: [
-        "Interactive cashflow charts and customizable category breakdowns",
-        "AI-assisted spending anomaly and recurring expense tracking",
-        "Configurable budget thresholds with visual warning alerts",
-        "Instant client-side filtering and dark mode data visualizations",
+        "Real-time object detection and multi-class waste tagging",
+        "Recycling feasibility index and municipal guidelines match",
+        "Fast image upload & mobile camera integration",
+        "Sub-150ms inference time with lightweight model deployment",
       ],
-      tags: ["React", "TypeScript", "Tailwind CSS", "Recharts", "Data Visualization"],
+      features: [
+        "Computer Vision Classification",
+        "Live Camera Stream Inference",
+        "Categorized Bin Recommendation",
+        "Eco-Impact Points Tracker",
+      ],
+      contribution: "Computer Vision Model Training, Backend API & Responsive Frontend",
+      architecture: "Python OpenCV + PyTorch + FastAPI + React UI",
+      tags: ["Python", "OpenCV", "PyTorch", "FastAPI", "React", "AI / CV"],
+      category: "AI / ML",
+      featured: true,
+      status: "Published",
       liveUrl: "https://brsml.netlify.app/",
       githubUrl: "https://github.com/sairakesh-143",
-      category: "AI & Data",
-      featured: true,
-      status: "Active Project",
-      impactMetric: "Predictive Cash Flow Insights",
+      imageUrl: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&q=80",
     },
     {
-      id: "healthguard-ai",
-      title: "HealthGuard AI",
-      subtitle: "AI-Powered Medical Fraud & Clinical Inconsistencies Detection",
+      id: "portfolio-admin-dashboard",
+      title: "Portfolio Admin Dashboard",
+      subtitle: "Full-Featured CMS for Portfolio Management",
       description:
-        "A security-focused AI healthcare platform analyzing clinical records, diagnostic histories, and claims data to identify potential billing fraud and medical discrepancies.",
+        "A complete administration panel to manage projects, review contact messages, run AI content generation, and monitor analytics with real-time statistics.",
       problemSolution: {
         problem:
-          "Manual healthcare record and insurance audit processes are slow, error-prone, and allow billing discrepancies and inconsistencies to slip through.",
+          "Developers frequently have to manually edit code files just to add a new project, modify tags, or update contact links.",
         solution:
-          "Leverages rule-based validation and pattern recognition algorithms to flag diagnostic and billing inconsistencies in real time.",
+          "Built a secure, modular CMS with CRUD project management, local/cloud storage sync, and automated AI assistance.",
       },
       highlights: [
-        "Automated medical claim consistency checks and anomaly scoring",
-        "Patient record visualization and diagnostic timeline explorer",
-        "Security-first audit trails, compliance exports, and report generation",
-        "Clean REST API integration with robust schema validation",
+        "Live CRUD for projects with instant client-side reactivity",
+        "Contact message inbox with unread badges & replies",
+        "AI workspace for drafting summaries and tech stack descriptions",
+        "LocalStorage persistence with optional Supabase cloud sync",
       ],
-      tags: ["React", "TypeScript", "Python", "Node.js", "Healthcare AI", "REST API"],
-      liveUrl: "https://lnkd.in/eFbEk2UD",
-      githubUrl: "https://github.com/sairakesh-143/portfolio",
-      category: "Full Stack",
+      features: [
+        "Interactive Project Management Table & Form",
+        "Message Center & Contact Alerts",
+        "AI Content Generation Studio",
+        "Theme & Settings Control",
+      ],
+      contribution: "Complete Architecture, State Management, UI/UX & Backend Integration",
+      architecture: "React + TypeScript + Tailwind CSS + Radix UI + Supabase",
+      tags: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Radix UI"],
+      category: "Tools",
       featured: true,
-      status: "Featured Project",
-      impactMetric: "Automated Clinical Audit Engine",
+      status: "Published",
+      liveUrl: "/admin",
+      githubUrl: "https://github.com/sairakesh-143/My-Portfolio",
+      imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+    },
+    {
+      id: "task-manager-app",
+      title: "Task Manager App",
+      subtitle: "Modern Productivity & Sprint Organizer",
+      description:
+        "A modern task manager to organize tasks, track sprint progress, set priority levels, and boost productivity with clean drag-and-drop boards.",
+      problemSolution: {
+        problem:
+          "Complex task management tools are cluttered and slow down agile solo developers and small student teams.",
+        solution:
+          "Designed a sleek, lightweight task organizer with priority filters, status columns, and instant persistence.",
+      },
+      highlights: [
+        "Drag & drop task board with real-time status transitions",
+        "Category tagging and urgent priority alerts",
+        "Progress analytics and completed task archive",
+        "Lightweight bundle size with instant loading",
+      ],
+      features: [
+        "Kanban & List Views",
+        "Priority Matrix",
+        "Deadline Reminders",
+        "Export & Backup Support",
+      ],
+      contribution: "Full-Stack Development, State Store & Responsive UI",
+      architecture: "React + Tailwind CSS + LocalStorage / Firebase",
+      tags: ["React", "Tailwind CSS", "Firebase", "TypeScript"],
+      category: "Web Development",
+      featured: false,
+      status: "Published",
+      liveUrl: "https://dbsr.netlify.app/",
+      githubUrl: "https://github.com/sairakesh-143",
+      imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&q=80",
     },
   ] as Project[],
-
-  journey: [
-    {
-      year: "2024",
-      title: "Development Foundations",
-      role: "Self-Driven Learning & CS Fundamentals",
-      description:
-        "Started deep dive into Web Development and Computer Science fundamentals. Mastered HTML5, CSS3, JavaScript (ES6+), and Python algorithms. Built initial frontend interactive applications.",
-      badges: ["JavaScript", "Python", "HTML/CSS", "Git Basics"],
-    },
-    {
-      year: "2025",
-      title: "AI & Data Science Exploration",
-      role: "B.Tech Undergraduate at KIET College",
-      description:
-        "Expanded into Data Science, Machine Learning fundamentals, and AI API integrations. Engineered healthcare analysis tools (HealthGuard AI) and explored predictive models.",
-      badges: ["Machine Learning", "React", "Data Analysis", "AI APIs"],
-    },
-    {
-      year: "2026",
-      title: "Full-Stack + AI Production Systems",
-      role: "Software Engineering & Real-World Projects",
-      description:
-        "Built production-ready applications including WareMind AI and AI Finance Dashboard. Focused on robust component architectures, TypeScript safety, and scalable web solutions.",
-      badges: ["TypeScript", "Node.js", "Tailwind CSS", "Vite", "Recharts"],
-    },
-    {
-      year: "2026 & Beyond",
-      title: "Open to Internship Opportunities",
-      role: "Aspiring Software Engineer / Full-Stack & AI",
-      description:
-        "Actively seeking internships and collaborative roles where I can contribute to production codebases, ship user-centric products, and grow with ambitious engineering teams.",
-      badges: ["Internships", "Full Stack", "AI Engineering", "Collaboration"],
-      isCurrent: true,
-    },
-  ] as JourneyMilestone[],
 
   skillCategories: [
     {
       title: "Frontend",
       iconName: "Layout",
-      description: "Building fast, accessible, and responsive user interfaces",
+      description: "Modern, responsive, and performant user interfaces",
       skills: [
-        { name: "React", level: "Core", iconName: "Atom" },
+        { name: "React.js", level: "Core", iconName: "Atom" },
         { name: "TypeScript", level: "Core", iconName: "FileCode2" },
-        { name: "JavaScript (ES6+)", level: "Core", iconName: "Code2" },
-        { name: "Tailwind CSS", level: "Advanced", iconName: "Palette" },
+        { name: "JavaScript", level: "Core", iconName: "Code2" },
         { name: "HTML5", level: "Expert", iconName: "Globe" },
         { name: "CSS3", level: "Expert", iconName: "Sparkles" },
+        { name: "Tailwind CSS", level: "Advanced", iconName: "Palette" },
       ],
     },
     {
       title: "Backend",
       iconName: "Server",
-      description: "Developing scalable server logic and REST endpoints",
+      description: "Scalable server architectures, APIs, and microservices",
       skills: [
-        { name: "Python", level: "Proficient", iconName: "Terminal" },
+        { name: "Python", level: "Advanced", iconName: "Terminal" },
+        { name: "FastAPI", level: "Proficient", iconName: "Zap" },
         { name: "Node.js", level: "Proficient", iconName: "Cpu" },
         { name: "Express.js", level: "Proficient", iconName: "Server" },
         { name: "REST APIs", level: "Advanced", iconName: "Network" },
+      ],
+    },
+    {
+      title: "AI / ML",
+      iconName: "Brain",
+      description: "Generative AI, RAG pipelines, and intelligent models",
+      skills: [
+        { name: "Generative AI", level: "Advanced", iconName: "Sparkles" },
+        { name: "LLMs & APIs", level: "Advanced", iconName: "Bot" },
+        { name: "RAG Architecture", level: "Proficient", iconName: "Database" },
+        { name: "Prompt Engineering", level: "Advanced", iconName: "Layers" },
+        { name: "Vector Databases", level: "Proficient", iconName: "Cpu" },
+      ],
+    },
+    {
+      title: "Database",
+      iconName: "Database",
+      description: "Relational, vector, and real-time database systems",
+      skills: [
+        { name: "Supabase", level: "Advanced", iconName: "Flame" },
+        { name: "PostgreSQL", level: "Advanced", iconName: "Database" },
+        { name: "pgvector", level: "Proficient", iconName: "Sparkles" },
         { name: "Firebase", level: "Proficient", iconName: "Flame" },
       ],
     },
     {
-      title: "AI & Data",
-      iconName: "Brain",
-      description: "Applying machine learning, data models, and intelligent APIs",
-      skills: [
-        { name: "Python", level: "Proficient", iconName: "Terminal" },
-        { name: "Machine Learning", level: "Proficient", iconName: "Brain" },
-        { name: "AI APIs & Prompting", level: "Advanced", iconName: "Sparkles" },
-        { name: "Data Analysis", level: "Proficient", iconName: "BarChart3" },
-      ],
-    },
-    {
-      title: "Tools & Workflow",
+      title: "Tools & Others",
       iconName: "Wrench",
-      description: "Professional developer workflow, versioning, and build tooling",
+      description: "Development environment, versioning, and design tooling",
       skills: [
         { name: "Git", level: "Advanced", iconName: "GitBranch" },
         { name: "GitHub", level: "Advanced", iconName: "Github" },
-        { name: "Vite", level: "Advanced", iconName: "Zap" },
-        { name: "VS Code", level: "Advanced", iconName: "Laptop" },
-        { name: "Vercel / Netlify", level: "Advanced", iconName: "Cloud" },
+        { name: "VS Code", level: "Expert", iconName: "Laptop" },
+        { name: "Postman", level: "Advanced", iconName: "Send" },
+        { name: "Figma", level: "Proficient", iconName: "Figma" },
       ],
     },
   ] as SkillCategory[],
 
-  githubShowcase: {
-    username: "sairakesh-143",
-    profileUrl: "https://github.com/sairakesh-143",
-    stats: [
-      { label: "Active Repositories", value: "8+" },
-      { label: "Core Stacks", value: "TS · Python · React" },
-      { label: "Commit Consistency", value: "Active Builder" },
-    ],
-    topRepos: [
-      {
-        name: "WareMind-AI",
-        description: "Intelligent Warehouse Operations & Order Fulfillment System with multi-zone allocation.",
-        language: "TypeScript",
-        stars: 3,
-        forks: 1,
-        url: "https://github.com/sairakesh-143",
-      },
-      {
-        name: "AI-Finance-Dashboard",
-        description: "Personal finance analytics dashboard with anomaly tracking and interactive visual charts.",
-        language: "TypeScript",
-        stars: 2,
-        forks: 0,
-        url: "https://github.com/sairakesh-143",
-      },
-      {
-        name: "HealthGuard-AI",
-        description: "AI-driven clinical claims analysis and medical discrepancy detection system.",
-        language: "Python",
-        stars: 2,
-        forks: 0,
-        url: "https://github.com/sairakesh-143",
-      },
-      {
-        name: "My-Portfolio",
-        description: "Production portfolio showcase built with React, Vite, Tailwind CSS, and Framer Motion.",
-        language: "TypeScript",
-        stars: 1,
-        forks: 0,
-        url: "https://github.com/sairakesh-143/My-Portfolio",
-      },
-    ] as GithubRepo[],
-  },
-
-  aboutPillars: [
+  journey: [
     {
-      title: "Academic Background",
-      subtitle: "B.Tech in AI & Data Science",
+      year: "2026",
+      title: "B.Tech in Computer Science & Engineering",
+      subtitle: "Currently in 3rd Year · KIET College",
       description:
-        "Undergraduate at KIET College, Kakinada (Korangi). Building strong foundations in data structures, algorithms, machine learning, and system architecture.",
+        "Pursuing undergraduate degree with deep focus on AI, Data Science, Web Development, and real-world software architecture.",
+      badges: ["B.Tech 3rd Year", "AI & DS", "KIET College"],
       icon: "GraduationCap",
-      tags: ["AI & Data Science", "KIET College", "Kakinada"],
+      accentColor: "purple",
+      isCurrent: true,
     },
     {
-      title: "Product-First Full Stack",
-      subtitle: "End-to-End Craftsmanship",
+      year: "2026",
+      title: "Started Building AI & RAG Projects",
+      subtitle: "Autonomous Agents & Retrieval Pipelines",
       description:
-        "I don't just build UI mockups; I focus on shipping end-to-end applications with clean architectures, robust error handling, and high-performance user journeys.",
-      icon: "Layers",
-      tags: ["React", "TypeScript", "Node.js", "Tailwind CSS"],
-    },
-    {
-      title: "Practical AI Integrations",
-      subtitle: "Beyond the Hype",
-      description:
-        "Applying AI where it truly creates leverage — operational automation, financial insights, and automated discrepancy detection rather than gimmicks.",
+        "Began integrating Generative AI, LLM APIs (Gemini, Groq), vector databases, and Retrieval-Augmented Generation to solve real problems.",
+      badges: ["RAG", "LLMs", "Vector DBs", "FastAPI"],
       icon: "Brain",
-      tags: ["Python", "ML Foundations", "AI APIs", "Automation"],
+      accentColor: "cyan",
     },
     {
-      title: "Collaboration & Growth",
-      subtitle: "Continuous Improvement",
+      year: "2026",
+      title: "Hackathon Projects & Rapid Prototyping",
+      subtitle: "Built HackLens & Smart Waste Sorting Assistant",
       description:
-        "Driven by feedback, version control best practices, clean documentation, and learning emerging web standards rapidly.",
-      icon: "Sparkles",
-      tags: ["Git Workflow", "Clean Code", "Fast Learner"],
+        "Collaborated in hackathons and built award-winning prototypes, delivering functional AI solutions under tight deadlines.",
+      badges: ["Hackathons", "HackLens", "Computer Vision", "Team Lead"],
+      icon: "Trophy",
+      accentColor: "emerald",
     },
-  ],
+    {
+      year: "2026",
+      title: "Full-Stack Web Development",
+      subtitle: "Production React & TypeScript Systems",
+      description:
+        "Mastered React, Tailwind CSS, TypeScript, and modern state architectures. Shipped high-performance portfolio CMS and web apps.",
+      badges: ["React.js", "TypeScript", "Tailwind CSS", "Supabase"],
+      icon: "Layers",
+      accentColor: "blue",
+    },
+    {
+      year: "Future",
+      title: "Building More, Learning More",
+      subtitle: "Seeking Internship & Engineering Roles",
+      description:
+        "Continuing to learn, contribute to open source, build impactful products, and collaborate with forward-thinking engineering teams.",
+      badges: ["Open for Internships", "Continuous Learning", "Full-Stack + AI"],
+      icon: "Sparkles",
+      accentColor: "amber",
+    },
+  ] as JourneyMilestone[],
 };

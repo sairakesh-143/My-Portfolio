@@ -547,7 +547,7 @@ const AdminAIAssistant = () => {
                   <label className="text-xs font-medium text-slate-300">Category</label>
                   <select
                     value={generatedProject.category || "Full Stack"}
-                    onChange={(e) => setGeneratedProject({ ...generatedProject, category: e.target.value as any })}
+                    onChange={(e) => setGeneratedProject({ ...generatedProject, category: e.target.value as ProjectItem["category"] })}
                     className="w-full bg-[#0e1424] border border-white/[0.1] text-xs text-white rounded-xl p-2.5 outline-none"
                   >
                     <option value="Full Stack">Full Stack</option>

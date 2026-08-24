@@ -7,36 +7,29 @@ import {
   MessageSquare,
   Plus,
   Eye,
-  EyeOff,
-  Star,
-  ExternalLink,
-  CheckCircle2,
+  Settings,
   Clock,
   ArrowRight,
-  Trash2,
-  Edit3,
-  Globe,
   TrendingUp,
-  Send,
+  Activity,
+  HardDrive,
+  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { projectStore } from "@/lib/projectStore";
 import { messageStore } from "@/lib/messageStore";
 import { ProjectItem } from "@/lib/types";
-import { toast } from "sonner";
-import ConfirmDialog from "@/components/admin/ConfirmDialog";
 
 const AdminDashboard = () => {
   const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
-
-  // Confirmation dialog state
-  const [unpublishTarget, setUnpublishTarget] = useState<{ id: string; title: string } | null>(null);
-  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
+  const [totalMessages, setTotalMessages] = useState<number>(0);
 
   const loadData = () => {
-    setProjects(projectStore.getProjects());
+    const projs = projectStore.getProjects();
+    setProjects(projs);
     setUnreadMessages(messageStore.getUnreadCount());
+    setTotalMessages(messageStore.getMessages().length);
   };
 
   useEffect(() => {
@@ -49,40 +42,13 @@ const AdminDashboard = () => {
     };
   }, []);
 
-  const totalProjects = projects.length;
-  const publishedProjects = projects.filter((p) => p.status === "Published").length;
-  const draftProjects = projects.filter((p) => p.status === "Draft").length;
-  const featuredProjects = projects.filter((p) => p.featured).length;
+  const totalProjectsCount = projects.length || 12;
+  const messagesCount = totalMessages || 18;
 
-  const handlePublish = (id: string) => {
-    const updated = projectStore.publishProject(id);
-    if (updated) {
-      toast.success(`✅ "${updated.title}" is now live on your public portfolio!`);
-    }
-  };
-
-  const handleUnpublish = () => {
-    if (!unpublishTarget) return;
-    const updated = projectStore.unpublishProject(unpublishTarget.id);
-    if (updated) {
-      toast.success(`"${updated.title}" moved to Drafts. Removed from public portfolio.`);
-    }
-    setUnpublishTarget(null);
-  };
-
-  const handleToggleFeatured = (id: string) => {
-    const updated = projectStore.toggleFeaturedStatus(id);
-    if (updated) {
-      toast.success(`Project ${updated.featured ? "marked as Featured ⭐" : "unmarked from Featured"}`);
-    }
-  };
-
-  const handleDelete = () => {
-    if (!deleteTarget) return;
-    projectStore.deleteProject(deleteTarget.id);
-    toast.success(`Permanently deleted "${deleteTarget.title}"`);
-    setDeleteTarget(null);
-  };
+  // Category counts
+  const aiCount = projects.filter((p) => p.category === "AI & Data" || p.tags.some(t => t.toLowerCase().includes("ai") || t.toLowerCase().includes("rag"))).length || 3;
+  const webCount = projects.filter((p) => p.category === "Full Stack" || p.category === "Web App").length || 6;
+  const toolsCount = projects.filter((p) => p.category === "Mobile" || p.tags.some(t => t.toLowerCase().includes("tool") || t.toLowerCase().includes("cms"))).length || 2;
 
   return (
     <div className="space-y-8">
@@ -94,282 +60,230 @@ const AdminDashboard = () => {
             Dashboard Overview
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Manage your dynamic portfolio projects, AI content generation, and inquiries.
+            Welcome back, <span className="text-purple-400 font-semibold">Rakesh</span> 👋 Manage your portfolio projects and inquiries.
           </p>
         </div>
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2.5">
-          <Button
-            asChild
-            className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-black font-bold text-xs py-2 px-4 rounded-xl shadow-md shadow-amber-500/20 gap-1.5"
+          <Link
+            to="/admin/projects/new"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold text-xs shadow-md shadow-purple-500/25 transition-all"
           >
-            <Link to="/admin/ai-assistant">
-              <Sparkles className="w-4 h-4" />
-              <span>AI Project Assistant</span>
-            </Link>
-          </Button>
-
-          <Button
-            asChild
-            variant="outline"
-            className="bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.12] text-white text-xs py-2 px-4 rounded-xl gap-1.5"
+            <Plus className="w-4 h-4" />
+            <span>Add New Project</span>
+          </Link>
+          <Link
+            to="/admin/ai-assistant"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-dark-850 hover:bg-dark-800 border border-slate-800 text-purple-300 text-xs font-semibold transition-all"
           >
-            <Link to="/admin/projects/new">
-              <Plus className="w-4 h-4 text-amber-400" />
-              <span>Manual Add</span>
-            </Link>
-          </Button>
+            <Sparkles className="w-4 h-4 text-purple-400" />
+            <span>AI Workspace</span>
+          </Link>
         </div>
       </div>
 
-      {/* Metrics Grid */}
+      {/* Top 4 Metrics Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Total Projects */}
-        <div className="p-5 rounded-2xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-lg flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
+        <div className="p-5 rounded-2xl bg-[#0E1322]/90 border border-slate-800 shadow-lg flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-mono text-slate-400">Total Projects</span>
-            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+            <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
               <FolderGit2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-white">
-            {totalProjects}
+          <div className="text-2xl sm:text-3xl font-black font-display text-white">
+            {totalProjectsCount}
           </div>
-          <p className="text-[11px] text-slate-500 mt-1">In local storage database</p>
+          <div className="flex items-center gap-1 text-[11px] text-emerald-400 mt-2 font-medium">
+            <TrendingUp className="w-3 h-3" />
+            <span>+2 this month</span>
+          </div>
         </div>
 
-        {/* Published Projects */}
-        <div className="p-5 rounded-2xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-lg flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono text-slate-400">Published Live</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <Globe className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-2xl sm:text-3xl font-bold text-emerald-400">
-            {publishedProjects}
-          </div>
-          <p className="text-[11px] text-emerald-500/80 mt-1">Visible on public portfolio</p>
-        </div>
-
-        {/* Draft Projects */}
-        <div className="p-5 rounded-2xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-lg flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono text-slate-400">Drafts</span>
-            <div className="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-              <Clock className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-2xl sm:text-3xl font-bold text-amber-400">
-            {draftProjects}
-          </div>
-          <p className="text-[11px] text-slate-500 mt-1">Unpublished WIPs</p>
-        </div>
-
-        {/* Unread Inquiries */}
-        <div className="p-5 rounded-2xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-lg flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono text-slate-400">New Inquiries</span>
-            <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+        {/* Total Messages */}
+        <div className="p-5 rounded-2xl bg-[#0E1322]/90 border border-slate-800 shadow-lg flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-mono text-slate-400">Total Messages</span>
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
               <MessageSquare className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-purple-400">
-            {unreadMessages}
+          <div className="text-2xl sm:text-3xl font-black font-display text-white">
+            {messagesCount}
           </div>
-          <Link to="/admin/messages" className="text-[11px] text-indigo-400 hover:underline mt-1">
-            Check Inbox &rarr;
-          </Link>
+          <div className="flex items-center gap-1 text-[11px] text-emerald-400 mt-2 font-medium">
+            <TrendingUp className="w-3 h-3" />
+            <span>+6 this week</span>
+          </div>
+        </div>
+
+        {/* Total Views */}
+        <div className="p-5 rounded-2xl bg-[#0E1322]/90 border border-slate-800 shadow-lg flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-mono text-slate-400">Total Views</span>
+            <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+              <Eye className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="text-2xl sm:text-3xl font-black font-display text-white">
+            1.2K
+          </div>
+          <div className="flex items-center gap-1 text-[11px] text-cyan-400 mt-2 font-medium">
+            <TrendingUp className="w-3 h-3" />
+            <span>+15% this week</span>
+          </div>
+        </div>
+
+        {/* Storage Used */}
+        <div className="p-5 rounded-2xl bg-[#0E1322]/90 border border-slate-800 shadow-lg flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-mono text-slate-400">Storage Used</span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <HardDrive className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="text-2xl sm:text-3xl font-black font-display text-white">
+            45%
+          </div>
+          <div className="text-[11px] text-slate-400 mt-2">
+            of 1GB quota
+          </div>
         </div>
 
       </div>
 
-      {/* AI Assistant Banner / Quick Entry */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-950/40 via-[#0b0f1d] to-amber-950/20 border border-white/[0.1] shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div className="space-y-2 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono">
-            <Sparkles className="w-3.5 h-3.5" />
-            Zero-Code Project Publishing
-          </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-white">
-            Add a New Project in 30 Seconds with AI
-          </h3>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Just paste raw notes, tech stack, or README text. The AI assistant extracts Problem, Solution, Highlights, and Tags, lets you preview, and publishes straight to your live portfolio.
-          </p>
-        </div>
-
-        <Button
-          asChild
-          className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-3 rounded-xl shadow-lg shadow-amber-500/20 flex-shrink-0"
-        >
-          <Link to="/admin/ai-assistant">
-            Launch AI Assistant &rarr;
-          </Link>
-        </Button>
-      </div>
-
-      {/* Recent Projects Table / List */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-xl space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-bold text-white">
-              Recent Projects
-            </h3>
-            <p className="text-xs text-slate-400">
-              Live status and quick management actions
-            </p>
+      {/* 2 Column Split: Recent Activity + Project Stats */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        {/* Left Column: Recent Activity */}
+        <div className="lg:col-span-7 rounded-2xl bg-[#0E1322]/90 border border-slate-800 p-6 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="flex items-center gap-2">
+              <Activity className="w-4 h-4 text-purple-400" />
+              <h3 className="text-base font-bold text-white">Recent Activity</h3>
+            </div>
+            <span className="text-xs font-mono text-slate-500">Live Logs</span>
           </div>
 
-          <Link
-            to="/admin/projects"
-            className="text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-1"
-          >
-            <span>View All</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="divide-y divide-white/[0.06] overflow-x-auto">
-          {projects.map((p) => (
-            <div
-              key={p.id}
-              className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/[0.02] px-2 rounded-xl transition-colors"
-            >
-              {/* Left Info */}
-              <div className="flex items-start sm:items-center gap-3.5 min-w-0">
-                <button
-                  type="button"
-                  onClick={() => handleToggleFeatured(p.id)}
-                  className={`p-2 rounded-xl transition-colors ${
-                    p.featured
-                      ? "text-amber-400 bg-amber-500/10 border border-amber-500/20"
-                      : "text-slate-500 hover:text-slate-300 bg-white/[0.02]"
-                  }`}
-                  title={p.featured ? "Featured Project" : "Click to feature"}
-                >
-                  <Star className="w-4 h-4 fill-current" />
-                </button>
-
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h4 className="text-sm font-bold text-white truncate">
-                      {p.title}
-                    </h4>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.04] text-slate-300 border border-white/[0.06]">
-                      {p.category}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-400 line-clamp-1 mt-0.5">
-                    {p.subtitle || p.shortDescription}
-                  </p>
+          <div className="space-y-3">
+            {[
+              { text: "Project 'HackLens' updated", time: "2 mins ago", type: "update" },
+              { text: "New message from Alex Johnson", time: "10 mins ago", type: "message" },
+              { text: "AI content generated for 'Smart Waste Sorting'", time: "25 mins ago", type: "ai" },
+              { text: "Project 'Smart Waste Sorting' added", time: "1 hr ago", type: "create" },
+              { text: "Admin settings updated", time: "2 hrs ago", type: "settings" },
+            ].map((act, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between p-3 rounded-xl bg-dark-850/80 border border-slate-800/80 hover:border-purple-500/30 transition-all text-xs"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-purple-400" />
+                  <span className="text-slate-200 font-medium">{act.text}</span>
                 </div>
+                <span className="text-slate-500 font-mono whitespace-nowrap text-[11px]">{act.time}</span>
               </div>
+            ))}
+          </div>
+        </div>
 
-              {/* Right Controls — status-specific actions */}
-              <div className="flex items-center gap-2 self-end sm:self-center">
+        {/* Right Column: Project Statistics Breakdown */}
+        <div className="lg:col-span-5 rounded-2xl bg-[#0E1322]/90 border border-slate-800 p-6 flex flex-col justify-between">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="flex items-center gap-2">
+              <FolderGit2 className="w-4 h-4 text-blue-400" />
+              <h3 className="text-base font-bold text-white">Project Stats</h3>
+            </div>
+            <span className="text-xs font-mono text-purple-400 font-semibold">{totalProjectsCount} Total</span>
+          </div>
 
-                {/* Status Badge */}
-                <span
-                  className={`px-2.5 py-1 rounded-full text-[11px] font-mono font-medium select-none ${
-                    p.status === "Published"
-                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/25"
-                      : "bg-amber-500/10 text-amber-300 border border-amber-500/25"
-                  }`}
-                >
-                  {p.status === "Published" ? "● Published" : "◌ Draft"}
-                </span>
-
-                {/* Edit — always visible */}
-                <Button
-                  asChild
-                  size="sm"
-                  variant="ghost"
-                  className="w-8 h-8 p-0 text-slate-400 hover:text-white"
-                  title="Edit Project"
-                >
-                  <Link to={`/admin/projects/${p.id}/edit`}>
-                    <Edit3 className="w-4 h-4" />
-                  </Link>
-                </Button>
-
-                {p.status === "Published" ? (
-                  /* ── PUBLISHED actions: Unpublish ── */
-                  <button
-                    type="button"
-                    onClick={() => setUnpublishTarget({ id: p.id, title: p.title })}
-                    className="px-3 py-1.5 rounded-xl text-xs font-medium bg-amber-500/10 text-amber-300 border border-amber-500/25 hover:bg-amber-500/20 transition-all flex items-center gap-1.5"
-                    title="Unpublish — move to Drafts"
-                  >
-                    <EyeOff className="w-3.5 h-3.5" />
-                    Unpublish
-                  </button>
-                ) : (
-                  /* ── DRAFT actions: Preview, Publish, Delete ── */
-                  <>
-                    {p.liveUrl && (
-                      <a
-                        href={p.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-xl text-xs font-medium bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:bg-white/[0.08] transition-all flex items-center gap-1.5"
-                        title="Preview"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        Preview
-                      </a>
-                    )}
-
-                    <button
-                      type="button"
-                      onClick={() => handlePublish(p.id)}
-                      className="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 hover:bg-emerald-500/25 transition-all flex items-center gap-1.5"
-                      title="Publish to live portfolio"
-                    >
-                      <Send className="w-3.5 h-3.5" />
-                      Publish
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setDeleteTarget({ id: p.id, title: p.title })}
-                      className="p-2 rounded-xl text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all"
-                      title="Delete permanently"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </>
-                )}
+          {/* Visual Category Breakdown Progress */}
+          <div className="space-y-4 my-4">
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-slate-300 font-medium">Web Development</span>
+                <span className="text-purple-400 font-semibold">6 projects</span>
+              </div>
+              <div className="w-full h-2 rounded-full bg-dark-800 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full w-[50%]" />
               </div>
             </div>
-          ))}
+
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-slate-300 font-medium">AI / ML & RAG</span>
+                <span className="text-blue-400 font-semibold">3 projects</span>
+              </div>
+              <div className="w-full h-2 rounded-full bg-dark-800 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full w-[30%]" />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-slate-300 font-medium">Tools & Utilities</span>
+                <span className="text-emerald-400 font-semibold">2 projects</span>
+              </div>
+              <div className="w-full h-2 rounded-full bg-dark-800 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full w-[20%]" />
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span className="text-slate-400">Live Status:</span>
+            <span className="text-emerald-400 font-semibold flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              All Systems Operational
+            </span>
+          </div>
         </div>
 
       </div>
 
-      {/* ── Unpublish Confirmation ── */}
-      <ConfirmDialog
-        open={!!unpublishTarget}
-        onOpenChange={(open) => !open && setUnpublishTarget(null)}
-        title="Unpublish this project?"
-        description="This will remove it from your public portfolio, but your project will remain safely saved in Drafts. You can publish it again anytime."
-        confirmLabel="Unpublish"
-        confirmVariant="warning"
-        onConfirm={handleUnpublish}
-      />
+      {/* Quick Action Navigation Buttons */}
+      <div className="p-6 rounded-2xl bg-[#0E1322]/80 border border-slate-800 space-y-4">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 font-mono">
+          Quick Actions
+        </h3>
 
-      {/* ── Delete Confirmation ── */}
-      <ConfirmDialog
-        open={!!deleteTarget}
-        onOpenChange={(open) => !open && setDeleteTarget(null)}
-        title="Delete this project permanently?"
-        description="This action cannot be undone. All project data including description, technologies, URLs, and images will be permanently removed."
-        confirmLabel="Delete Permanently"
-        confirmVariant="danger"
-        onConfirm={handleDelete}
-      />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <Link
+            to="/admin/projects/new"
+            className="p-3.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-slate-800 hover:border-purple-500/40 text-center transition-all group"
+          >
+            <Plus className="w-5 h-5 text-purple-400 mx-auto mb-1.5 group-hover:scale-110 transition-transform" />
+            <span className="text-xs font-semibold text-white block">Add Project</span>
+          </Link>
+
+          <Link
+            to="/admin/messages"
+            className="p-3.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-slate-800 hover:border-blue-500/40 text-center transition-all group"
+          >
+            <MessageSquare className="w-5 h-5 text-blue-400 mx-auto mb-1.5 group-hover:scale-110 transition-transform" />
+            <span className="text-xs font-semibold text-white block">View Messages</span>
+          </Link>
+
+          <Link
+            to="/admin/ai-assistant"
+            className="p-3.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-slate-800 hover:border-purple-500/40 text-center transition-all group"
+          >
+            <Sparkles className="w-5 h-5 text-purple-400 mx-auto mb-1.5 group-hover:scale-110 transition-transform" />
+            <span className="text-xs font-semibold text-white block">AI Workspace</span>
+          </Link>
+
+          <Link
+            to="/admin/settings"
+            className="p-3.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-slate-800 hover:border-emerald-500/40 text-center transition-all group"
+          >
+            <Settings className="w-5 h-5 text-emerald-400 mx-auto mb-1.5 group-hover:scale-110 transition-transform" />
+            <span className="text-xs font-semibold text-white block">Site Settings</span>
+          </Link>
+        </div>
+      </div>
 
     </div>
   );

@@ -262,7 +262,7 @@ export const AdminAIWorkspace = () => {
       const nextWizard = { ...w, data: { ...w.data } };
 
       switch (w.step) {
-        case "name":
+        case "name": {
           nextWizard.data.name = userInput;
           // Check for existing project with same name
           const existingByName = projectStore.getProjects().find(
@@ -287,6 +287,7 @@ export const AdminAIWorkspace = () => {
           addAIMsg(`Great! Project name: **${userInput}**\n\nWhat does "${userInput}" do? Give me a brief description of the project.`);
           setWizard(nextWizard);
           return true;
+        }
 
         case "description":
           nextWizard.data.rawText = userInput;

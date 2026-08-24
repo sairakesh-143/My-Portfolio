@@ -1,7 +1,6 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { authService } from "@/lib/auth";
-import AdminLogin from "@/pages/admin/AdminLogin";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,8 +11,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const location = useLocation();
 
   if (!isAuth) {
-    // Render the Login screen directly at the current admin URL
-    return <AdminLogin />;
+    return <Navigate to="/admin/login" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

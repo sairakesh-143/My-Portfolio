@@ -246,10 +246,11 @@ function craftFromPrompt(field: NonNullable<AiTarget>, prompt: string, title: st
       return `${t} — ${p.toLowerCase().replace(/[.!?]$/, "")}.`;
     case "impactMetric":
       return p.charAt(0).toUpperCase() + p.slice(1).replace(/[.!?]$/, "");
-    case "highlights":
+    case "highlights": {
       // Split on newlines or commas, take up to 5 as bullet points
       const items = p.split(/\n|,/).map((s) => s.trim()).filter(Boolean).slice(0, 5);
       return items.length > 0 ? items.join("\n") : `Real-time ${p} with full data integrity`;
+    }
     default:
       return p;
   }
@@ -354,7 +355,7 @@ const AdminProjectForm = () => {
       formData.slug?.trim() ||
       formData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-    const toSave: any = {
+    const toSave: Parameters<typeof projectStore.saveProject>[0] = {
       ...formData,
       slug,
       tags: tags.length > 0 ? tags : ["React", "TypeScript"],
@@ -477,7 +478,7 @@ const AdminProjectForm = () => {
             <label className="text-xs font-medium text-slate-300">Category</label>
             <select
               value={formData.category || "Full Stack"}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value as ProjectItem["category"] })}
               className="w-full bg-[#0e1424] border border-white/[0.1] text-xs text-white rounded-xl p-2.5 outline-none focus:ring-1 focus:ring-amber-400"
             >
               <option value="Full Stack">Full Stack</option>
@@ -697,7 +698,7 @@ const AdminProjectForm = () => {
             <label className="text-xs font-medium text-slate-300">Publishing Status:</label>
             <select
               value={formData.status || "Published"}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value as ProjectItem["status"] })}
               className="bg-[#0e1424] border border-white/[0.1] text-xs text-white rounded-xl px-3 py-1.5"
             >
               <option value="Published">Published (Live)</option>

@@ -1,100 +1,157 @@
+import { GraduationCap, Brain, Trophy, Layers, Sparkles, Calendar, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { Milestone, Sparkles, CheckCircle2, Calendar, Briefcase, GraduationCap, Rocket } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
 
-const iconMap = [GraduationCap, Sparkles, Rocket, Briefcase];
+export default function Journey() {
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "GraduationCap":
+        return <GraduationCap className="w-5 h-5" />;
+      case "Brain":
+        return <Brain className="w-5 h-5" />;
+      case "Trophy":
+        return <Trophy className="w-5 h-5" />;
+      case "Layers":
+        return <Layers className="w-5 h-5" />;
+      case "Sparkles":
+      default:
+        return <Sparkles className="w-5 h-5" />;
+    }
+  };
 
-const Journey = () => {
+  const getAccentClass = (color: string) => {
+    switch (color) {
+      case "purple":
+        return {
+          glow: "border-purple-500/40 text-purple-400 bg-purple-500/10 shadow-[0_0_15px_rgba(139,92,246,0.3)]",
+          badge: "bg-purple-500/10 text-purple-300 border-purple-500/30",
+          node: "bg-purple-500 ring-purple-500/30",
+        };
+      case "cyan":
+        return {
+          glow: "border-cyan-500/40 text-cyan-400 bg-cyan-500/10 shadow-[0_0_15px_rgba(6,182,212,0.3)]",
+          badge: "bg-cyan-500/10 text-cyan-300 border-cyan-500/30",
+          node: "bg-cyan-400 ring-cyan-500/30",
+        };
+      case "emerald":
+        return {
+          glow: "border-emerald-500/40 text-emerald-400 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.3)]",
+          badge: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
+          node: "bg-emerald-400 ring-emerald-500/30",
+        };
+      case "blue":
+        return {
+          glow: "border-blue-500/40 text-blue-400 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.3)]",
+          badge: "bg-blue-500/10 text-blue-300 border-blue-500/30",
+          node: "bg-blue-500 ring-blue-500/30",
+        };
+      case "amber":
+      default:
+        return {
+          glow: "border-amber-500/40 text-amber-400 bg-amber-500/10 shadow-[0_0_15px_rgba(245,158,11,0.3)]",
+          badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+          node: "bg-amber-400 ring-amber-500/30",
+        };
+    }
+  };
+
   return (
-    <section id="journey" className="py-20 md:py-28 relative">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 right-1/4 w-[450px] h-[450px] bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none -z-10" />
+    <section id="journey" className="relative py-20 lg:py-28 overflow-hidden">
+      {/* Glow Backdrop */}
+      <div className="absolute top-1/2 right-10 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-        
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-8 w-full">
         {/* Section Header */}
-        <div className="flex flex-col items-start max-w-2xl mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-mono mb-3">
-            <Calendar className="w-3.5 h-3.5" />
-            Engineering Story
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
-            Developer Journey & Milestones
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-xs font-mono uppercase tracking-widest text-purple-400 font-semibold mb-2 inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20">
+            Timeline & Milestones
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-white tracking-tight mb-3">
+            My Journey
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
-            From algorithmic foundations to shipping production-ready AI & full-stack systems, here is how my skillset evolved.
+          <p className="text-base sm:text-lg text-slate-400">
+            Education, projects, learning, hackathons, and software engineering milestones.
           </p>
         </div>
 
-        {/* Timeline Container */}
-        <div className="relative border-l border-white/[0.1] ml-4 sm:ml-8 md:ml-12 pl-6 sm:pl-10 space-y-12">
-          {portfolioData.journey.map((item, index) => {
-            const Icon = iconMap[index % iconMap.length];
-            return (
-              <motion.div
-                key={item.year + item.title}
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative group"
-              >
-                {/* Timeline Dot / Icon */}
-                <div className={`absolute -left-[35px] sm:-left-[51px] top-1.5 w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all ${
-                  item.isCurrent
-                    ? "bg-amber-500 border-amber-300 text-black shadow-lg shadow-amber-500/30 scale-110"
-                    : "bg-[#0c101e] border-white/[0.2] text-slate-300 group-hover:border-amber-400 group-hover:text-amber-300"
-                }`}>
-                  <Icon className="w-4 h-4" />
-                </div>
+        {/* Vertical Timeline */}
+        <div className="relative pl-6 sm:pl-8 md:pl-0">
+          {/* Vertical Center Line for Desktop, Left Line for Mobile */}
+          <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-[2px] bg-gradient-to-b from-purple-500 via-blue-500 to-amber-500 -translate-x-1/2 opacity-30 pointer-events-none" />
 
-                {/* Milestone Card */}
-                <div className="p-6 sm:p-7 rounded-3xl bg-[#0b0f1d]/90 border border-white/[0.08] hover:border-amber-500/30 transition-all duration-300 shadow-xl group-hover:shadow-amber-500/5">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-2.5">
-                      <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/10 text-amber-300 border border-amber-500/25">
-                        {item.year}
-                      </span>
-                      <span className="text-xs font-mono text-slate-400">
-                        {item.role}
-                      </span>
+          <div className="space-y-12">
+            {portfolioData.journey.map((item, idx) => {
+              const isEven = idx % 2 === 0;
+              const styling = getAccentClass(item.accentColor);
+
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className={`relative flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12 ${
+                    isEven ? "md:flex-row" : "md:flex-row-reverse"
+                  }`}
+                >
+                  {/* Timeline Glowing Node */}
+                  <div className="absolute left-0 md:left-1/2 top-4 -translate-x-1/2 z-10">
+                    <div className={`w-8 h-8 rounded-full border-2 border-dark-900 ring-4 flex items-center justify-center ${styling.node}`}>
+                      <div className="w-2 h-2 rounded-full bg-white" />
                     </div>
-
-                    {item.isCurrent && (
-                      <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full animate-pulse">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                        Current Focus
-                      </span>
-                    )}
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-amber-300 transition-colors">
-                    {item.title}
-                  </h3>
+                  {/* Content Card (Half Width on Desktop, Full Width on Mobile) */}
+                  <div className="w-full md:w-[calc(50%-2.5rem)] ml-6 md:ml-0">
+                    <div className="rounded-2xl bg-[#0E1322]/90 backdrop-blur-xl border border-slate-800 hover:border-purple-500/40 p-6 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(139,92,246,0.15)] hover:-translate-y-0.5">
+                      {/* Year & Icon Header */}
+                      <div className="flex items-center justify-between gap-3 mb-3">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-dark-800 border border-slate-700/80 text-white">
+                          <Calendar className="w-3.5 h-3.5 text-purple-400" />
+                          <span>{item.year}</span>
+                        </div>
+                        <div className={`p-2 rounded-xl border ${styling.glow}`}>
+                          {getIcon(item.icon)}
+                        </div>
+                      </div>
 
-                  <p className="text-sm text-slate-300 leading-relaxed mb-5">
-                    {item.description}
-                  </p>
+                      {/* Title & Subtitle */}
+                      <h3 className="text-lg font-bold text-white mb-1">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-purple-300 font-medium mb-3">
+                        {item.subtitle}
+                      </p>
 
-                  <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/[0.05]">
-                    {item.badges.map((badge) => (
-                      <span
-                        key={badge}
-                        className="px-2.5 py-0.5 text-xs font-mono text-slate-300 bg-white/[0.03] border border-white/[0.06] rounded-md"
-                      >
-                        {badge}
-                      </span>
-                    ))}
+                      {/* Description */}
+                      <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+                        {item.description}
+                      </p>
+
+                      {/* Badges */}
+                      <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-800/60">
+                        {item.badges.map((b) => (
+                          <span
+                            key={b}
+                            className={`px-2.5 py-0.5 rounded-md text-[11px] font-medium border ${styling.badge}`}
+                          >
+                            {b}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
+
+                  {/* Empty Spacer on Opposite Side (Desktop only) */}
+                  <div className="hidden md:block w-[calc(50%-2.5rem)]" />
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
       </div>
     </section>
   );
-};
-
-export default Journey;
+}

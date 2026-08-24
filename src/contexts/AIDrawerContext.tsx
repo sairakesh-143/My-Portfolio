@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // src/contexts/AIDrawerContext.tsx
 import { createContext, useContext, useState, ReactNode } from "react";
 

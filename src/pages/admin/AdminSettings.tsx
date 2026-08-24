@@ -13,6 +13,7 @@ import {
   Check,
   Eye,
   EyeOff,
+  Sliders,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -126,17 +127,17 @@ const AdminSettings = () => {
           Admin Settings & Storage
         </h1>
         <p className="text-xs sm:text-sm text-slate-400 mt-1">
-          Configure AI project providers, admin credentials, data backup, and cloud database sync.
+          Configure AI generator providers, admin credentials, theme preferences, and cloud database sync.
         </p>
       </div>
 
-      {/* Section 1: General & AI Configuration */}
-      <form onSubmit={handleSaveGeneralSettings} className="p-6 sm:p-8 rounded-3xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-xl space-y-6">
-        <div className="flex items-center gap-2.5 pb-4 border-b border-white/[0.08]">
-          <Sparkles className="w-5 h-5 text-amber-400" />
+      {/* Section 1: Portfolio & AI Configuration */}
+      <form onSubmit={handleSaveGeneralSettings} className="p-6 sm:p-8 rounded-2xl bg-[#0E1322]/90 border border-slate-800 shadow-xl space-y-6">
+        <div className="flex items-center gap-2.5 pb-4 border-b border-slate-800">
+          <Sparkles className="w-5 h-5 text-purple-400" />
           <div>
-            <h3 className="text-base font-bold text-white">AI Assistant & Admin Profile</h3>
-            <p className="text-xs text-slate-400">Configure AI generator engine and admin details</p>
+            <h3 className="text-base font-bold text-white">Portfolio Settings & AI Engine</h3>
+            <p className="text-xs text-slate-400">Configure administrator profile and AI provider</p>
           </div>
         </div>
 
@@ -146,7 +147,7 @@ const AdminSettings = () => {
             <Input
               value={adminName}
               onChange={(e) => setAdminName(e.target.value)}
-              className="bg-white/[0.03] border-white/[0.1] text-white text-xs rounded-xl"
+              className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl focus:border-purple-500"
             />
           </div>
 
@@ -156,7 +157,7 @@ const AdminSettings = () => {
               type="email"
               value={adminEmail}
               onChange={(e) => setAdminEmail(e.target.value)}
-              className="bg-white/[0.03] border-white/[0.1] text-white text-xs rounded-xl"
+              className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl focus:border-purple-500"
             />
           </div>
         </div>
@@ -167,15 +168,15 @@ const AdminSettings = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div
               onClick={() => setAiProvider("built-in")}
-              className={`p-4 rounded-2xl border cursor-pointer transition-all ${
+              className={`p-4 rounded-xl border cursor-pointer transition-all ${
                 aiProvider === "built-in"
-                  ? "bg-amber-500/10 border-amber-500/30 text-white"
-                  : "bg-white/[0.02] border-white/[0.08] text-slate-400 hover:text-white"
+                  ? "bg-purple-600/10 border-purple-500/40 text-white shadow-sm"
+                  : "bg-dark-850 border-slate-800 text-slate-400 hover:text-white"
               }`}
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-bold text-white">Built-in NLP Engine</span>
-                {aiProvider === "built-in" && <CheckCircle2 className="w-4 h-4 text-amber-400" />}
+                {aiProvider === "built-in" && <CheckCircle2 className="w-4 h-4 text-purple-400" />}
               </div>
               <p className="text-[11px] text-slate-400">
                 Offline, zero-config, instant structured extraction with 0 API keys required.
@@ -184,18 +185,18 @@ const AdminSettings = () => {
 
             <div
               onClick={() => setAiProvider("gemini")}
-              className={`p-4 rounded-2xl border cursor-pointer transition-all ${
+              className={`p-4 rounded-xl border cursor-pointer transition-all ${
                 aiProvider === "gemini"
-                  ? "bg-amber-500/10 border-amber-500/30 text-white"
-                  : "bg-white/[0.02] border-white/[0.08] text-slate-400 hover:text-white"
+                  ? "bg-purple-600/10 border-purple-500/40 text-white shadow-sm"
+                  : "bg-dark-850 border-slate-800 text-slate-400 hover:text-white"
               }`}
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-bold text-white">Google Gemini API</span>
-                {aiProvider === "gemini" && <CheckCircle2 className="w-4 h-4 text-amber-400" />}
+                {aiProvider === "gemini" && <CheckCircle2 className="w-4 h-4 text-purple-400" />}
               </div>
               <p className="text-[11px] text-slate-400">
-                Connect your personal Gemini API key for advanced natural language generation.
+                Connect your Gemini API key for advanced natural language generation.
               </p>
             </div>
           </div>
@@ -208,7 +209,7 @@ const AdminSettings = () => {
                 placeholder="AIzaSy..."
                 value={geminiApiKey}
                 onChange={(e) => setGeminiApiKey(e.target.value)}
-                className="bg-white/[0.03] border-white/[0.1] text-white text-xs rounded-xl"
+                className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl focus:border-purple-500"
               />
               <p className="text-[10px] text-slate-500">
                 Your key is stored locally in your browser and never exposed publicly.
@@ -220,7 +221,7 @@ const AdminSettings = () => {
         <div className="flex justify-end pt-2">
           <Button
             type="submit"
-            className="bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold text-xs rounded-xl shadow-md shadow-purple-500/25"
           >
             Save General Settings
           </Button>
@@ -228,9 +229,9 @@ const AdminSettings = () => {
       </form>
 
       {/* Section 2: Password Management */}
-      <form onSubmit={handlePasswordChange} className="p-6 sm:p-8 rounded-3xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-xl space-y-4">
-        <div className="flex items-center gap-2.5 pb-4 border-b border-white/[0.08]">
-          <Shield className="w-5 h-5 text-indigo-400" />
+      <form onSubmit={handlePasswordChange} className="p-6 sm:p-8 rounded-2xl bg-[#0E1322]/90 border border-slate-800 shadow-xl space-y-4">
+        <div className="flex items-center gap-2.5 pb-4 border-b border-slate-800">
+          <Shield className="w-5 h-5 text-blue-400" />
           <div>
             <h3 className="text-base font-bold text-white">Change Admin Password</h3>
             <p className="text-xs text-slate-400">Update credentials used to access `/admin`</p>
@@ -246,7 +247,7 @@ const AdminSettings = () => {
               value={currentPass}
               onChange={(e) => setCurrentPass(e.target.value)}
               placeholder="••••••••"
-              className="bg-white/[0.03] border-white/[0.1] text-white text-xs rounded-xl"
+              className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl focus:border-purple-500"
             />
           </div>
 
@@ -258,7 +259,7 @@ const AdminSettings = () => {
               value={newPass}
               onChange={(e) => setNewPass(e.target.value)}
               placeholder="••••••••"
-              className="bg-white/[0.03] border-white/[0.1] text-white text-xs rounded-xl"
+              className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl focus:border-purple-500"
             />
           </div>
 
@@ -270,7 +271,7 @@ const AdminSettings = () => {
               value={confirmPass}
               onChange={(e) => setConfirmPass(e.target.value)}
               placeholder="••••••••"
-              className="bg-white/[0.03] border-white/[0.1] text-white text-xs rounded-xl"
+              className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl focus:border-purple-500"
             />
           </div>
         </div>
@@ -279,7 +280,7 @@ const AdminSettings = () => {
           <Button
             type="submit"
             variant="outline"
-            className="bg-white/[0.04] border-white/[0.12] text-white text-xs rounded-xl"
+            className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl hover:bg-dark-800"
           >
             Update Password
           </Button>
@@ -287,8 +288,8 @@ const AdminSettings = () => {
       </form>
 
       {/* Section 3: Supabase Cloud Database Config */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-xl space-y-4">
-        <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
+      <div className="p-6 sm:p-8 rounded-2xl bg-[#0E1322]/90 border border-slate-800 shadow-xl space-y-4">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
           <div className="flex items-center gap-2.5">
             <Database className="w-5 h-5 text-emerald-400" />
             <div>
@@ -300,7 +301,7 @@ const AdminSettings = () => {
           <button
             type="button"
             onClick={copySql}
-            className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-mono font-medium"
+            className="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1 font-mono font-medium"
           >
             {copiedSql ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
             {copiedSql ? "Copied SQL" : "Copy SQL Table Schema"}
@@ -314,7 +315,7 @@ const AdminSettings = () => {
               placeholder="https://xyz.supabase.co"
               value={supabaseUrl}
               onChange={(e) => setSupabaseUrl(e.target.value)}
-              className="bg-white/[0.03] border-white/[0.1] text-white text-xs rounded-xl"
+              className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl focus:border-purple-500"
             />
           </div>
 
@@ -325,7 +326,7 @@ const AdminSettings = () => {
               placeholder="eyJhbGciOi..."
               value={supabaseAnonKey}
               onChange={(e) => setSupabaseAnonKey(e.target.value)}
-              className="bg-white/[0.03] border-white/[0.1] text-white text-xs rounded-xl"
+              className="bg-dark-850 border-slate-800 text-white text-xs rounded-xl focus:border-purple-500"
             />
           </div>
         </div>
@@ -336,7 +337,7 @@ const AdminSettings = () => {
             id="supabase-toggle"
             checked={useSupabase}
             onChange={(e) => setUseSupabase(e.target.checked)}
-            className="rounded bg-white/[0.05] border-white/[0.2] text-emerald-500 cursor-pointer"
+            className="rounded bg-dark-850 border-slate-700 text-purple-600 cursor-pointer focus:ring-purple-500"
           />
           <label htmlFor="supabase-toggle" className="text-xs text-slate-300 cursor-pointer">
             Enable active Supabase sync for projects table
@@ -345,9 +346,9 @@ const AdminSettings = () => {
       </div>
 
       {/* Section 4: Data Backup & Reset */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#0b0f1d]/90 border border-white/[0.08] shadow-xl space-y-4">
-        <div className="flex items-center gap-2.5 pb-4 border-b border-white/[0.08]">
-          <Download className="w-5 h-5 text-amber-400" />
+      <div className="p-6 sm:p-8 rounded-2xl bg-[#0E1322]/90 border border-slate-800 shadow-xl space-y-4">
+        <div className="flex items-center gap-2.5 pb-4 border-b border-slate-800">
+          <Download className="w-5 h-5 text-purple-400" />
           <div>
             <h3 className="text-base font-bold text-white">Data Backup & Migration</h3>
             <p className="text-xs text-slate-400">Export or import your portfolio projects JSON</p>
@@ -358,14 +359,14 @@ const AdminSettings = () => {
           <Button
             type="button"
             onClick={handleExportJSON}
-            className="bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.12] text-white text-xs rounded-xl gap-1.5"
+            className="bg-dark-850 hover:bg-dark-800 border border-slate-800 text-white text-xs rounded-xl gap-1.5"
           >
-            <Download className="w-3.5 h-3.5 text-amber-400" />
+            <Download className="w-3.5 h-3.5 text-purple-400" />
             Export Projects Backup (.json)
           </Button>
 
-          <label className="cursor-pointer px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.12] text-xs font-semibold text-white transition-colors inline-flex items-center gap-1.5">
-            <Upload className="w-3.5 h-3.5 text-indigo-400" />
+          <label className="cursor-pointer px-4 py-2 rounded-xl bg-dark-850 hover:bg-dark-800 border border-slate-800 text-xs font-semibold text-white transition-colors inline-flex items-center gap-1.5">
+            <Upload className="w-3.5 h-3.5 text-blue-400" />
             Import from JSON
             <input type="file" accept=".json" onChange={handleImportJSON} className="hidden" />
           </label>
@@ -377,7 +378,7 @@ const AdminSettings = () => {
             className="text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-xl gap-1.5 ml-auto"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            Reset to Default Flagship Projects
+            Reset to Default Projects
           </Button>
         </div>
       </div>

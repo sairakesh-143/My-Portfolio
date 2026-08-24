@@ -34,7 +34,7 @@ const AdminLogin = () => {
 
       if (res.success) {
         setUnlocked(true);
-        toast.success("Access granted. Opening Admin AI Workspace...");
+        toast.success("Access granted. Opening Admin Dashboard...");
         setTimeout(() => {
           navigate(from === "/admin/login" ? "/admin" : from, { replace: true });
           window.dispatchEvent(new Event("storage"));
@@ -50,11 +50,11 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#070910] text-[#F5F7FF] flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#070B14] text-slate-100 flex items-center justify-center p-4 relative overflow-hidden">
       
       {/* Background ambient glowing auras */}
-      <div className="absolute top-1/3 left-1/3 w-[520px] h-[520px] bg-indigo-600/10 rounded-full blur-[170px] pointer-events-none -z-10 animate-pulse" />
-      <div className="absolute bottom-1/3 right-1/3 w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/3 w-[520px] h-[520px] bg-purple-600/15 rounded-full blur-[170px] pointer-events-none -z-10 animate-pulse" />
+      <div className="absolute bottom-1/3 right-1/3 w-[450px] h-[450px] bg-blue-600/10 rounded-full blur-[160px] pointer-events-none -z-10" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.94, y: 16 }}
@@ -63,10 +63,10 @@ const AdminLogin = () => {
         className="w-full max-w-md"
       >
         {/* Glassmorphic Lock Card */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#0b0f1e]/90 border border-white/[0.1] shadow-2xl shadow-black/90 backdrop-blur-2xl relative overflow-hidden">
+        <div className="p-8 sm:p-10 rounded-3xl bg-[#0E1322]/90 border border-slate-800 shadow-2xl shadow-black/90 backdrop-blur-2xl relative overflow-hidden">
           
           {/* Subtle top accent gradient */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-amber-400 to-purple-500" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-400" />
 
           {/* Animated Lock Icon */}
           <div className="text-center mb-7">
@@ -82,7 +82,7 @@ const AdminLogin = () => {
                   ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-xl shadow-emerald-500/20"
                   : error
                   ? "bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-xl shadow-rose-500/20"
-                  : "bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-amber-500/20 border-white/[0.15] text-amber-400 shadow-xl shadow-black/50"
+                  : "bg-purple-600/15 border-purple-500/30 text-purple-400 shadow-xl shadow-purple-500/20"
               }`}
             >
               {unlocked ? (
@@ -93,10 +93,10 @@ const AdminLogin = () => {
             </motion.div>
 
             <h1 className="text-2xl font-bold text-white tracking-tight">
-              Admin Workspace
+              Rakesh Admin
             </h1>
             <p className="text-xs text-slate-400 mt-1">
-              Enter password to unlock private AI portfolio manager
+              Enter password to unlock private CMS dashboard
             </p>
           </div>
 
@@ -120,7 +120,7 @@ const AdminLogin = () => {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs font-medium text-slate-300">
                 <span>Admin Password</span>
-                <span className="text-[10px] text-slate-500 font-mono">Protected</span>
+                <span className="text-[10px] text-slate-500 font-mono">Default: 123456</span>
               </div>
 
               <div className="relative">
@@ -135,7 +135,7 @@ const AdminLogin = () => {
                   autoFocus
                   required
                   placeholder="Enter admin password..."
-                  className="pl-10 pr-10 bg-white/[0.04] border-white/[0.12] focus-visible:border-amber-400 text-white placeholder:text-slate-500 focus-visible:ring-amber-400 rounded-xl text-xs py-2.5"
+                  className="pl-10 pr-10 bg-dark-850 border-slate-800 focus-visible:border-purple-500 text-white placeholder:text-slate-500 focus-visible:ring-purple-500 rounded-xl text-xs py-2.5"
                 />
                 <button
                   type="button"
@@ -151,14 +151,14 @@ const AdminLogin = () => {
             <Button
               type="submit"
               disabled={loading || unlocked}
-              className="w-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-bold py-3 rounded-xl shadow-xl shadow-amber-500/20 transition-all gap-2 text-xs mt-2"
+              className="w-full bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold py-3 rounded-xl shadow-xl shadow-purple-500/25 transition-all gap-2 text-xs mt-2"
             >
               {loading ? (
                 <span>Verifying security key...</span>
               ) : unlocked ? (
                 <>
-                  <ShieldCheck className="w-4 h-4 text-black" />
-                  <span>Unlocked! Opening Workspace...</span>
+                  <ShieldCheck className="w-4 h-4 text-white" />
+                  <span>Unlocked! Opening Dashboard...</span>
                 </>
               ) : (
                 <>
@@ -170,10 +170,10 @@ const AdminLogin = () => {
           </form>
 
           {/* Bottom Security Footer */}
-          <div className="mt-6 pt-5 border-t border-white/[0.06] text-center">
+          <div className="mt-6 pt-5 border-t border-slate-800 text-center">
             <div className="inline-flex items-center gap-1.5 text-[11px] font-mono text-slate-500">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span>SHA-256 Authenticated · Private Workspace</span>
+              <span>SHA-256 Authenticated · Private Admin Panel</span>
             </div>
           </div>
 
