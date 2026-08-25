@@ -18,6 +18,7 @@ export interface Project {
   features?: string[];
   contribution?: string;
   architecture?: string;
+  result?: string;
 }
 
 export interface SkillCategory {
@@ -25,6 +26,7 @@ export interface SkillCategory {
   iconName: string;
   description: string;
   skills: { name: string; level: string; iconName?: string }[];
+  usedIn?: string[];
 }
 
 export interface JourneyMilestone {
@@ -152,6 +154,7 @@ export const portfolioData = {
       ],
       contribution: "Full-Stack Development, RAG Pipeline, UI/UX Design & Prompt Engineering",
       architecture: "React.js + Python FastAPI + Supabase pgvector + Gemini & Groq APIs",
+      result: "Reduced hackathon project planning from hours to seconds with AI-generated blueprints and instant tech stack recommendations.",
       tags: ["React.js", "Python", "Supabase", "PostgreSQL", "Gemini", "Groq", "RAG"],
       category: "AI / ML",
       featured: true,
@@ -186,6 +189,7 @@ export const portfolioData = {
       ],
       contribution: "Computer Vision Model Training, Backend API & Responsive Frontend",
       architecture: "Python OpenCV + PyTorch + FastAPI + React UI",
+      result: "Achieved sub-150ms inference time with multi-class waste detection and real-time disposal guidance.",
       tags: ["Python", "OpenCV", "PyTorch", "FastAPI", "React", "AI / CV"],
       category: "AI / ML",
       featured: true,
@@ -220,6 +224,7 @@ export const portfolioData = {
       ],
       contribution: "Complete Architecture, State Management, UI/UX & Backend Integration",
       architecture: "React + TypeScript + Tailwind CSS + Radix UI + Supabase",
+      result: "Built a full CMS with CRUD project management, contact message inbox, and AI content generation studio.",
       tags: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Radix UI"],
       category: "Tools",
       featured: true,
@@ -254,6 +259,7 @@ export const portfolioData = {
       ],
       contribution: "Full-Stack Development, State Store & Responsive UI",
       architecture: "React + Tailwind CSS + LocalStorage / Firebase",
+      result: "Delivered a lightweight productivity tool with drag-and-drop boards and instant persistence.",
       tags: ["React", "Tailwind CSS", "Firebase", "TypeScript"],
       category: "Web Development",
       featured: false,
@@ -277,6 +283,7 @@ export const portfolioData = {
         { name: "CSS3", level: "Expert", iconName: "Sparkles" },
         { name: "Tailwind CSS", level: "Advanced", iconName: "Palette" },
       ],
+      usedIn: ["HackLens", "Portfolio CMS", "Task Manager"],
     },
     {
       title: "Backend",
@@ -289,6 +296,7 @@ export const portfolioData = {
         { name: "Express.js", level: "Proficient", iconName: "Server" },
         { name: "REST APIs", level: "Advanced", iconName: "Network" },
       ],
+      usedIn: ["HackLens", "Smart Waste Sorting"],
     },
     {
       title: "AI / ML",
@@ -301,6 +309,7 @@ export const portfolioData = {
         { name: "Prompt Engineering", level: "Advanced", iconName: "Layers" },
         { name: "Vector Databases", level: "Proficient", iconName: "Cpu" },
       ],
+      usedIn: ["HackLens", "Smart Waste Sorting"],
     },
     {
       title: "Database",
@@ -312,6 +321,7 @@ export const portfolioData = {
         { name: "pgvector", level: "Proficient", iconName: "Sparkles" },
         { name: "Firebase", level: "Proficient", iconName: "Flame" },
       ],
+      usedIn: ["HackLens", "Portfolio CMS", "Task Manager"],
     },
     {
       title: "Tools & Others",
@@ -324,6 +334,7 @@ export const portfolioData = {
         { name: "Postman", level: "Advanced", iconName: "Send" },
         { name: "Figma", level: "Proficient", iconName: "Figma" },
       ],
+      usedIn: ["All Projects"],
     },
   ] as SkillCategory[],
 
@@ -380,4 +391,16 @@ export const portfolioData = {
       accentColor: "amber",
     },
   ] as JourneyMilestone[],
+
+  currentlyBuilding: {
+    focus: "AI & RAG Applications",
+    description:
+      "Actively exploring Retrieval-Augmented Generation, document intelligence, vector search, and AI-powered developer tools. Building projects that leverage LLMs to solve real-world problems.",
+    explorations: [
+      { name: "Retrieval-Augmented Generation", icon: "Database" },
+      { name: "Document Intelligence", icon: "FileText" },
+      { name: "Vector Search & Embeddings", icon: "Layers" },
+      { name: "AI-Powered Developer Tools", icon: "Wrench" },
+    ],
+  },
 };

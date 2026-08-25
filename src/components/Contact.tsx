@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, Send, MapPin, Linkedin, Github, CheckCircle2, AlertCircle, Phone, ArrowUpRight } from "lucide-react";
+import { Mail, Send, MapPin, Linkedin, Github, CircleCheck as CheckCircle2, CircleAlert as AlertCircle, Phone, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 import { messageStore } from "@/lib/messageStore";
@@ -64,7 +64,7 @@ export default function Contact() {
   return (
     <section id="contact" className="relative py-20 lg:py-28 overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[160px] pointer-events-none -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-600/8 rounded-full blur-[150px] pointer-events-none -z-10" />
 
       <div className="max-w-[1360px] mx-auto px-4 sm:px-8 w-full">
         {/* Section Header */}

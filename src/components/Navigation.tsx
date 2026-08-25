@@ -88,12 +88,16 @@ export default function Navigation() {
           </ul>
 
           {/* Download Resume Button */}
-          <div className="flex items-center pl-4 border-l border-slate-800">
+          <div className="flex items-center pl-4 border-l border-slate-800 gap-3">
+            <span className="hidden lg:inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Open to Internships</span>
+            </span>
             <a
               href={portfolioData.personal.resumeUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold tracking-wide rounded-xl bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:shadow-[0_0_25px_rgba(139,92,246,0.6)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold tracking-wide rounded-xl bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white shadow-md shadow-purple-500/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Resume</span>

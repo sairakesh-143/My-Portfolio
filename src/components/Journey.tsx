@@ -1,4 +1,4 @@
-import { GraduationCap, Brain, Trophy, Layers, Sparkles, Calendar, CheckCircle2 } from "lucide-react";
+import { GraduationCap, Brain, Trophy, Layers, Sparkles, Calendar, CircleCheck as CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 
@@ -58,7 +58,7 @@ export default function Journey() {
   return (
     <section id="journey" className="relative py-20 lg:py-28 overflow-hidden">
       {/* Glow Backdrop */}
-      <div className="absolute top-1/2 right-10 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 right-10 w-[350px] h-[350px] bg-purple-600/8 rounded-full blur-[130px] pointer-events-none -z-10" />
 
       <div className="max-w-[1100px] mx-auto px-4 sm:px-8 w-full">
         {/* Section Header */}
