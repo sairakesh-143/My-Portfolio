@@ -150,48 +150,47 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* ── Desktop: full portrait card ── */}
-            <div className="hidden lg:block relative w-full max-w-[420px] group">
+            {/* ── Desktop: circular portrait ── */}
+            <div className="hidden lg:flex flex-col items-center w-full max-w-[420px] group">
 
-              {/* Glowing ring around card */}
-              <div className="absolute -inset-[2px] rounded-[20px] bg-gradient-to-br from-purple-500/40 via-blue-500/20 to-cyan-400/20 blur-sm opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Circular portrait with glowing ring */}
+              <div className="relative">
+                {/* Rotating gradient ring */}
+                <div className="absolute -inset-3 rounded-full bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 opacity-60 blur-sm group-hover:opacity-90 transition-opacity duration-500 animate-pulse-glow" />
 
-              {/* Main portrait card */}
-              <div className="relative w-full rounded-2xl bg-[#0E1322]/95 border border-purple-500/30 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_50px_rgba(139,92,246,0.15)] backdrop-blur-xl">
+                {/* White-ish subtle outer ring */}
+                <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-purple-500/30 via-blue-500/20 to-cyan-400/20" />
 
-                {/* Radial purple glow overlay (behind photo) */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(139,92,246,0.18)_0%,rgba(59,130,246,0.08)_45%,transparent_75%)] pointer-events-none z-10" />
-
-                {/* Portrait image */}
-                <div className="relative w-full" style={{ aspectRatio: "4/5" }}>
+                {/* Main circular image */}
+                <div className="relative w-[340px] h-[340px] rounded-full overflow-hidden border-4 border-[#0E1322] shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_50px_rgba(139,92,246,0.25)]">
                   <img
                     src="/hero-portrait.png"
                     alt="Bhargava Sai Rakesh Reddy — AI & Full-Stack Developer"
-                    className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  {/* Bottom fade gradient so label reads cleanly */}
-                  <div className="absolute bottom-0 left-0 right-0 h-44 bg-gradient-to-t from-[#070B14] via-[#070B14]/65 to-transparent pointer-events-none" />
-                  {/* Subtle inner edge shadow for blended look */}
-                  <div className="absolute inset-0 shadow-[inset_0_0_35px_rgba(7,11,20,0.45)] pointer-events-none" />
-                </div>
-
-                {/* Bottom name + role label */}
-                <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 z-20">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[10px] font-semibold tracking-wider uppercase mb-2 backdrop-blur-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-                    AI &amp; Full-Stack Developer
-                  </span>
-                  <div className="text-sm font-bold text-white leading-tight tracking-tight">
-                    Bhargava Sai Rakesh Reddy
-                  </div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">B.Tech · KIET College · 2028</div>
+                  {/* Inner edge shadow for depth */}
+                  <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(7,11,20,0.5)] pointer-events-none" />
                 </div>
 
                 {/* 3rd Year B.Tech floating badge — top right */}
-                <div className="absolute top-3 right-3 z-20 px-3 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-semibold shadow-lg shadow-purple-500/40 flex items-center gap-1.5 backdrop-blur-sm">
+                <div className="absolute top-4 -right-2 px-3 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-semibold shadow-lg shadow-purple-500/40 flex items-center gap-1.5 backdrop-blur-sm z-20">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>3rd Year B.Tech</span>
                 </div>
+
+                {/* AI badge — bottom left */}
+                <div className="absolute bottom-6 -left-3 px-3 py-1.5 rounded-xl bg-[#0E1322]/90 border border-purple-500/30 text-purple-300 text-[10px] font-semibold tracking-wider uppercase shadow-lg flex items-center gap-1.5 backdrop-blur-sm z-20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                  AI &amp; Full-Stack Developer
+                </div>
+              </div>
+
+              {/* Name + role label below circle */}
+              <div className="mt-6 text-center">
+                <div className="text-lg font-bold text-white leading-tight tracking-tight">
+                  Bhargava Sai Rakesh Reddy
+                </div>
+                <div className="text-xs text-slate-400 mt-1">B.Tech · KIET College · 2028</div>
               </div>
             </div>
           </motion.div>

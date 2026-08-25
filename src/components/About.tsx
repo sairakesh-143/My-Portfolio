@@ -1,4 +1,4 @@
-import { BookOpen, Hammer, Rocket, ArrowRight, User, GraduationCap, MapPin, Sparkles, CheckCircle2, Laptop } from "lucide-react";
+import { BookOpen, Hammer, Rocket, ArrowRight, User, GraduationCap, MapPin, Sparkles, CircleCheck as CheckCircle2, Laptop } from "lucide-react";
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 
@@ -36,16 +36,21 @@ export default function About() {
             {/* Bio Card with Developer Portrait Photo */}
             <div className="rounded-2xl bg-[#0E1322]/85 backdrop-blur-xl border border-slate-800 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-center sm:items-start">
               
-              {/* Profile Photo Frame */}
-              <div className="relative w-36 h-44 sm:w-44 sm:h-52 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-[0_0_30px_rgba(139,92,246,0.3)] flex-shrink-0 bg-dark-900 group">
-                <img
-                  src="/profile.jpg"
-                  alt={portfolioData.personal.fullName}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-2 left-2 right-2 text-center">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-black/80 text-purple-300 border border-purple-500/30 backdrop-blur-sm">
+              {/* Profile Photo Frame — perfect circle */}
+              <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex-shrink-0 group">
+                {/* Glowing ring */}
+                <div className="absolute -inset-1.5 rounded-full bg-gradient-to-br from-purple-500/50 via-blue-500/30 to-cyan-500/20 blur-sm opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-purple-500/40 shadow-[0_0_30px_rgba(139,92,246,0.3)] bg-dark-900">
+                  <img
+                    src="/profile.jpg"
+                    alt={portfolioData.personal.fullName}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 shadow-[inset_0_0_25px_rgba(7,11,20,0.4)] pointer-events-none" />
+                </div>
+                {/* KIET badge */}
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-[#0E1322] text-purple-300 border border-purple-500/30 backdrop-blur-sm shadow-md">
                     KIET '28
                   </span>
                 </div>
