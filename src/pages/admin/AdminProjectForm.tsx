@@ -86,29 +86,24 @@ function AiFieldPanel({ target, projectTitle, currentValue, onAccept, onClose }:
     setGenerated("");
 
     try {
-      // Use the built-in AI engine with the prompt as raw input
-      const result = generateProjectWithBuiltinAI({
-        name: projectTitle || "My Project",
-        rawText: prompt,
-        notes: `Field to generate: ${target}. User request: ${prompt}. Current value: ${currentValue}`,
-      });
+      // Craft high quality output directly tailored to user request
+      let output = craftFromPrompt(target!, prompt, projectTitle);
 
-      let output = "";
-      if (target === "description") output = result.description || "";
-      else if (target === "problem") output = result.problem || "";
-      else if (target === "solution") output = result.solution || "";
-      else if (target === "subtitle") output = result.subtitle || "";
-      else if (target === "tagline") output = result.tagline || "";
-      else if (target === "shortDescription") output = result.shortDescription || "";
-      else if (target === "impactMetric") output = result.impactMetric || "";
-      else if (target === "highlights") {
-        output = (result.highlights || []).join("\n");
-      }
-
-      // If built-in AI returns something useful, use it, otherwise craft from the prompt
-      if (!output || output.length < 20) {
-        // Fallback: craft a professional response from the prompt
-        output = craftFromPrompt(target!, prompt, projectTitle);
+      if (target === "highlights" || target === "description") {
+        try {
+          const result = generateProjectWithBuiltinAI({
+            name: projectTitle || "My Project",
+            rawText: prompt,
+            notes: `Field to generate: ${target}. User request: ${prompt}. Current value: ${currentValue}`,
+          });
+          if (target === "highlights" && result.highlights && result.highlights.length > 0) {
+            output = result.highlights.join("\n");
+          } else if (target === "description" && result.description && result.description.length > 30) {
+            output = result.description;
+          }
+        } catch {
+          // fallback to crafted output
+        }
       }
 
       setGenerated(output);
@@ -228,28 +223,37 @@ function AiFieldPanel({ target, projectTitle, currentValue, onAccept, onClose }:
 // ─── Smart content crafter (fallback when AI engine output is thin) ─────────
 
 function craftFromPrompt(field: NonNullable<AiTarget>, prompt: string, title: string): string {
-  const t = title || "this project";
-  const p = prompt.trim();
+  const t = title || "This platform";
+  const p = prompt.trim().replace(/^[-•*]\s*/, "");
 
   switch (field) {
     case "description":
-      return `${t} is a ${p.toLowerCase().includes("ai") ? "AI-powered" : "production-grade"} platform that ${p}. Built with modern technologies to deliver a seamless user experience and reliable system performance.`;
-    case "problem":
-      return `${p}. Without an automated solution, teams face significant operational delays, manual errors, and scaling bottlenecks that limit throughput and reliability.`;
-    case "solution":
-      return `${t} addresses this by ${p.toLowerCase()}. The system leverages real-time data pipelines, intelligent automation, and a clean API architecture to deliver measurable improvements in efficiency and accuracy.`;
+      return `${t} is an advanced software platform engineered to ${p.toLowerCase().includes("ai") ? "leverage AI to" : ""} ${p.toLowerCase()}. Built with modern architecture, high-performance APIs, and an intuitive user interface for maximum reliability and scalability.`;
+    case "problem": {
+      const cleanPrompt = p.charAt(0).toUpperCase() + p.slice(1).replace(/[.!?]$/, "");
+      return `${cleanPrompt}. Without an automated solution, teams and users face significant operational delays, manual errors, lack of visibility, and scaling bottlenecks that limit efficiency and throughput.`;
+    }
+    case "solution": {
+      const cleanPrompt = p.charAt(0).toUpperCase() + p.slice(1).replace(/[.!?]$/, "");
+      return `${t} resolves this by ${cleanPrompt.toLowerCase()}. The system leverages automated workflows, real-time state synchronization, and a streamlined interface to ensure reliability and measurable efficiency gains.`;
+    }
     case "subtitle":
-      return `${p} — ${t}`;
+      return p.charAt(0).toUpperCase() + p.slice(1);
     case "tagline":
       return p.charAt(0).toUpperCase() + p.slice(1);
     case "shortDescription":
-      return `${t} — ${p.toLowerCase().replace(/[.!?]$/, "")}.`;
+      return `${t} — ${p.toLowerCase().replace(/[.!?]$/, "")}. Built for real-world impact and reliability.`;
     case "impactMetric":
       return p.charAt(0).toUpperCase() + p.slice(1).replace(/[.!?]$/, "");
     case "highlights": {
-      // Split on newlines or commas, take up to 5 as bullet points
-      const items = p.split(/\n|,/).map((s) => s.trim()).filter(Boolean).slice(0, 5);
-      return items.length > 0 ? items.join("\n") : `Real-time ${p} with full data integrity`;
+      const items = p
+        .split(/\n|,|;/)
+        .map((s) => s.replace(/^[-•*]\s*/, "").trim())
+        .filter(Boolean)
+        .slice(0, 5);
+      return items.length > 0
+        ? items.join("\n")
+        : `Real-time ${p} with complete end-to-end data integrity`;
     }
     default:
       return p;
@@ -303,10 +307,16 @@ const AdminProjectForm = () => {
 
   useEffect(() => {
     if (id) {
-      const existing = projectStore.getProjectById(id);
+      const existing = projectStore.getProjectById(id) || projectStore.findBySlugOrTitle(id);
       if (existing) {
-        setFormData(existing);
-        setTechInput(existing.tags.join(", "));
+        const prob = existing.problem || (existing as any).problemSolution?.problem || "";
+        const sol = existing.solution || (existing as any).problemSolution?.solution || "";
+        setFormData({
+          ...existing,
+          problem: prob,
+          solution: sol,
+        });
+        setTechInput(existing.tags ? existing.tags.join(", ") : "");
       } else {
         toast.error("Project not found.");
         navigate("/admin/projects");
@@ -361,6 +371,8 @@ const AdminProjectForm = () => {
       tags: tags.length > 0 ? tags : ["React", "TypeScript"],
       highlights: highlights.length > 0 ? highlights : ["Real-time state & responsive architecture"],
       shortDescription: formData.shortDescription || formData.description || "",
+      problem: formData.problem || "",
+      solution: formData.solution || "",
       id: id || undefined,
     };
 
