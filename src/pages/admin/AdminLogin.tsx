@@ -51,7 +51,7 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen bg-[#070B14] text-slate-100 flex items-center justify-center p-4 relative overflow-hidden">
-      
+
       {/* Background ambient glowing auras */}
       <div className="absolute top-1/3 left-1/3 w-[520px] h-[520px] bg-purple-600/15 rounded-full blur-[170px] pointer-events-none -z-10 animate-pulse" />
       <div className="absolute bottom-1/3 right-1/3 w-[450px] h-[450px] bg-blue-600/10 rounded-full blur-[160px] pointer-events-none -z-10" />
@@ -64,7 +64,7 @@ const AdminLogin = () => {
       >
         {/* Glassmorphic Lock Card */}
         <div className="p-8 sm:p-10 rounded-3xl bg-[#0E1322]/90 border border-slate-800 shadow-2xl shadow-black/90 backdrop-blur-2xl relative overflow-hidden">
-          
+
           {/* Subtle top accent gradient */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-400" />
 
@@ -77,13 +77,12 @@ const AdminLogin = () => {
                   : { y: [0, -4, 0] }
               }
               transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border transition-all duration-500 ${
-                unlocked
+              className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border transition-all duration-500 ${unlocked
                   ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-xl shadow-emerald-500/20"
                   : error
-                  ? "bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-xl shadow-rose-500/20"
-                  : "bg-purple-600/15 border-purple-500/30 text-purple-400 shadow-xl shadow-purple-500/20"
-              }`}
+                    ? "bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-xl shadow-rose-500/20"
+                    : "bg-purple-600/15 border-purple-500/30 text-purple-400 shadow-xl shadow-purple-500/20"
+                }`}
             >
               {unlocked ? (
                 <Unlock className="w-8 h-8" />
