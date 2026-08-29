@@ -309,8 +309,9 @@ const AdminProjectForm = () => {
     if (id) {
       const existing = projectStore.getProjectById(id) || projectStore.findBySlugOrTitle(id);
       if (existing) {
-        const prob = existing.problem || (existing as any).problemSolution?.problem || "";
-        const sol = existing.solution || (existing as any).problemSolution?.solution || "";
+        const legacy = existing as { problemSolution?: { problem?: string; solution?: string } };
+        const prob = existing.problem || legacy.problemSolution?.problem || "";
+        const sol = existing.solution || legacy.problemSolution?.solution || "";
         setFormData({
           ...existing,
           problem: prob,
@@ -367,13 +368,24 @@ const AdminProjectForm = () => {
 
     const toSave: Parameters<typeof projectStore.saveProject>[0] = {
       ...formData,
+      id: id || undefined,
+      title: formData.title.trim(),
       slug,
-      tags: tags.length > 0 ? tags : ["React", "TypeScript"],
-      highlights: highlights.length > 0 ? highlights : ["Real-time state & responsive architecture"],
+      subtitle: formData.subtitle || "",
+      tagline: formData.tagline || "",
+      description: formData.description || "",
       shortDescription: formData.shortDescription || formData.description || "",
       problem: formData.problem || "",
       solution: formData.solution || "",
-      id: id || undefined,
+      highlights: highlights.length > 0 ? highlights : ["Real-time state & responsive architecture"],
+      tags: tags.length > 0 ? tags : ["React", "TypeScript"],
+      category: (formData.category as ProjectItem["category"]) || "Full Stack",
+      githubUrl: formData.githubUrl || "https://github.com/sairakesh-143",
+      liveUrl: formData.liveUrl || "",
+      status: (formData.status as ProjectItem["status"]) || "Published",
+      featured: formData.featured ?? true,
+      impactMetric: formData.impactMetric || "",
+      role: formData.role || "Full-Stack Developer",
     };
 
     const saved = projectStore.saveProject(toSave);
