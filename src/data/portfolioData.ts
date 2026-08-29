@@ -51,7 +51,7 @@ export const portfolioData = {
       "Building practical AI-powered solutions, full-stack applications, and learning by creating real-world projects.",
     aboutBio:
       "I'm a passionate developer who loves turning ideas into real-world solutions. I enjoy working with modern technologies and building products that make an impact.",
-    location: "kavitam, Andhra Pradesh, India",
+    location: "Kavitam, Andhra Pradesh, India",
     education: "B.Tech — 3rd Year (Class of 2028)",
     branch: "Computer Science & Engineering / AI & DS",
     college: "KIET College, Kakinada",

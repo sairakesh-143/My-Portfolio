@@ -70,20 +70,26 @@ export default function Contact() {
        * STEP 2:
        * Send the message to your Gmail using EmailJS.
        */
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          name: formData.name,
-          email: formData.email,
-          subject: subject,
-          message: formData.message,
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_5u5on25";
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_mmo604n";
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "0v2fqxf0l5oRLC_UA";
+      const toEmail = import.meta.env.VITE_EMAILJS_TO_EMAIL || "dwarampudirakesh143@gmail.com";
 
-          // Your receiving email
-          to_email: "dwarampudirakesh143@gmail.com",
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name: formData.name.trim(),
+          from_name: formData.name.trim(),
+          email: formData.email.trim(),
+          from_email: formData.email.trim(),
+          reply_to: formData.email.trim(),
+          subject: subject,
+          message: formData.message.trim(),
+          to_email: toEmail,
         },
         {
-          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+          publicKey: publicKey,
         }
       );
 
@@ -349,7 +355,7 @@ export default function Contact() {
                   </div>
 
                   <div className="text-sm font-bold text-white truncate group-hover:text-blue-300 transition-colors">
-                    https://www.linkedin.com/in/rakeshreddydwarampudi/
+                    linkedin.com/in/rakeshreddydwarampudi
                   </div>
 
                 </div>
